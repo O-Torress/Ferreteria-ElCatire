@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferretería El Catire · Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        screens: { sm: '720px', hdr: '900px' },
+        colors: {
+          brand: '#EE6610',
+          brandhover: '#CA570E',
+          stock: '#FBEF1F',
+          action: '#D92B2B',
+          actionhover: '#BA2525',
+          ink: '#1A2536',
+          inkdeep: '#0B1220',
+          muted: '#64748B',
+          line: '#E2E8F0',
+          canvas: '#F8FAFC',
+          disabled: '#CBD5E1',
+          media: '#E9EDF2'
+        },
+        fontFamily: {
+          display: ['Poppins', 'Montserrat', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
+          body: ['Inter', 'Roboto', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif']
+        }
+      }
+    },
+    safelist: ['opacity-100', 'pointer-events-auto', 'translate-x-0', 'translate-y-0', 'hidden']
+  };
+</script>
+<style>
+  :focus-visible{outline:2px solid #EE6610;outline-offset:2px}
+</style>
+</head>
+<body class="bg-canvas text-ink font-body antialiased text-[15px] leading-normal">
+
+<header class="bg-brand text-white sticky top-0 z-[60] shadow-[0_2px_10px_rgba(26,37,54,0.18)]" data-od-id="header">
+  <div class="max-w-[1280px] mx-auto px-3.5 py-2.5 hdr:px-5 flex flex-wrap items-center gap-4 min-h-16 hdr:flex-nowrap">
+
+    <a class="flex items-center" id="logoLink" href="#" data-od-id="logo-home" aria-label="Ferretería El Catire, ir a Inicio">
+      <img src="img/fec.jpg" alt="Logo Ferretería El Catire" class="h-20 w-auto rounded-2xl object-contain shadow-[0_1px_4px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-105">
+    </a>
+
+    <div class="flex-1 flex bg-white rounded-lg overflow-hidden max-w-[520px] mx-auto shadow-[0_1px_3px_rgba(0,0,0,0.18)] order-3 w-full hdr:order-none hdr:w-auto" data-od-id="search-bar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="ml-3.5 self-center text-muted flex-none"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="searchInput" type="search" placeholder="Busca martillos, pinturas, cables…" aria-label="Buscar productos" class="flex-1 min-w-0 outline-none px-3.5 py-3 text-sm text-ink bg-transparent placeholder:text-muted">
+      <button class="bg-ink hover:bg-inkdeep text-white px-[18px] font-semibold text-sm tracking-[0.02em] flex items-center gap-1.5 transition-colors" id="searchBtn">Buscar</button>
+    </div>
+
+    <div class="flex items-center gap-3 order-2 ml-auto hdr:ml-0 hdr:order-none">
+      <label class="relative flex items-center gap-1.5 bg-white/15 border border-white/40 rounded-lg pl-2 pr-8 text-white" data-od-id="sede-selector">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="flex-none"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <select id="sedeSelect" aria-label="Seleccionar sede" class="appearance-none bg-transparent outline-none text-white text-sm font-medium py-2.5 cursor-pointer">
+          <option value="Sede Norte">Sede Norte</option>
+          <option value="Sede Sur">Sede Sur</option>
+        </select>
+        <span class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-white">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </span>
+      </label>
+      <button class="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-white/30 transition-colors" id="cartBtn" data-od-id="cart-button" aria-label="Abrir carrito de compras">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h2.2l2 12.2a1.6 1.6 0 0 0 1.6 1.3h8.7a1.6 1.6 0 0 0 1.6-1.3L20.5 8H5.2"/></svg>
+        <span id="cartBadge" class="hidden absolute -top-1.5 -right-1.5 min-w-[21px] h-[21px] px-[5px] rounded-full bg-stock text-ink border border-black/10 text-xs font-bold grid place-items-center shadow-[0_1px_3px_rgba(0,0,0,0.35)]">0</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<main class="pt-6 pb-16">
+  <div class="max-w-[1280px] mx-auto px-5">
+    <div class="flex items-end justify-between gap-4 flex-wrap">
+      <div>
+        <h1 class="font-display font-bold text-[clamp(26px,3vw,32px)] text-brand tracking-[-0.01em] leading-[1.15]">Catálogo de productos</h1>
+        <p class="text-muted text-sm mt-0.5">Retiro en tienda o entrega en Maracaibo · Tasa de referencia: <span id="rateLabel"></span></p>
+      </div>
+    </div>
+
+    <nav class="flex flex-wrap gap-2.5 mt-5 mb-5" data-od-id="category-filters" aria-label="Filtrar por categoría">
+      <button class="py-2 px-4 rounded-full border text-sm tracking-[0.02em] min-h-[42px] transition-colors flex items-center gap-1.5 border-brand bg-brand text-white font-semibold shadow-[0_2px_8px_rgba(238,102,16,0.35)]" data-cat="all"><span class="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>Todos</button>
+      <button class="py-2 px-4 rounded-full border text-sm tracking-[0.02em] min-h-[42px] transition-colors flex items-center gap-1.5 border-line bg-white text-ink font-medium hover:border-brand hover:text-brand" data-cat="herramientas"><span class="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>Herramientas</button>
+      <button class="py-2 px-4 rounded-full border text-sm tracking-[0.02em] min-h-[42px] transition-colors flex items-center gap-1.5 border-line bg-white text-ink font-medium hover:border-brand hover:text-brand" data-cat="pinturas"><span class="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>Pinturas</button>
+      <button class="py-2 px-4 rounded-full border text-sm tracking-[0.02em] min-h-[42px] transition-colors flex items-center gap-1.5 border-line bg-white text-ink font-medium hover:border-brand hover:text-brand" data-cat="electricidad"><span class="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>Electricidad</button>
+      <button class="py-2 px-4 rounded-full border text-sm tracking-[0.02em] min-h-[42px] transition-colors flex items-center gap-1.5 border-line bg-white text-ink font-medium hover:border-brand hover:text-brand" data-cat="plomeria"><span class="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>Plomería</button>
+    </nav>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5" id="grid" data-od-id="product-grid"></div>
+  </div>
+</main>
+
+<div class="fixed inset-0 bg-ink/45 opacity-0 pointer-events-none transition-opacity duration-200 z-[80]" id="cartOverlay"></div>
+<aside class="fixed top-0 right-0 bottom-0 w-full max-w-[420px] bg-white z-[90] translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-[-8px_0_26px_rgba(26,37,54,0.2)]" id="cart" data-od-id="cart-drawer" role="dialog" aria-modal="true" aria-label="Carrito de compras" aria-hidden="true">
+  <header class="flex items-center gap-2 px-5 py-3.5 border-b border-line">
+    <h2 class="font-display text-[19px] font-semibold tracking-[-0.01em]">Tu pedido</h2>
+    <span class="text-xs text-brand font-semibold bg-brand/10 border border-brand/35 rounded-full px-2.5 py-0.5" id="cartSedeChip">Sede Norte</span>
+    <button class="w-10 h-10 ml-auto rounded-lg text-muted hover:bg-canvas hover:text-ink grid place-items-center transition-colors" id="cartClose" aria-label="Cerrar carrito">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </header>
+
+  <div class="flex-1 overflow-y-auto px-5 py-3.5 flex flex-col gap-3.5" id="cartItems"></div>
+
+  <div class="flex-1 flex flex-col items-center justify-center gap-2.5 p-8 text-center text-muted text-sm" id="cartEmpty">
+    <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-disabled"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h2.2l2 12.2a1.6 1.6 0 0 0 1.6 1.3h8.7a1.6 1.6 0 0 0 1.6-1.3L20.5 8H5.2"/></svg>
+    <strong class="font-display text-ink font-semibold text-[17px]">Tu carrito está vacío</strong>
+    <span>Añade productos desde el catálogo para armar tu pedido.</span>
+  </div>
+
+  <footer class="border-t border-line px-5 pt-3.5 pb-5 flex flex-col gap-3" id="cartFoot">
+    <div class="grid gap-1.5">
+      <div class="flex justify-between items-baseline text-sm"><span class="text-muted">Subtotal (US$)</span><b class="font-display text-[17px] font-bold tracking-[-0.01em]" id="totalUsd">$ 0,00</b></div>
+      <div class="flex justify-between items-baseline text-sm"><span class="text-muted">Subtotal (Bs)</span><b class="font-display text-[17px] font-bold tracking-[-0.01em]" id="totalBs">Bs 0,00</b></div>
+      <div class="flex justify-between items-baseline text-sm border-t border-dashed border-line pt-2 mt-0.5"><span class="text-muted">Total pedido</span><b class="font-display text-[19px] font-bold tracking-[-0.01em]" id="totalBig">$ 0,00</b></div>
+    </div>
+    <a class="flex items-center justify-center gap-2 bg-action hover:bg-actionhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors" id="waLink" href="#" target="_blank" rel="noopener" data-od-id="wa-button">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.5 0-3-.4-4.2-1.1L3 20l1.1-5.3A8.4 8.4 0 1 1 21 11.5Z"/><path d="M9 9.5c.3 2 1.5 3.2 3.5 3.5.6.1 1.2-.4 1.2-1 0-.4-.2-.7-.5-.9"/></svg>
+      Confirmar pedido por WhatsApp
+    </a>
+    <p class="text-xs text-muted text-center" id="waNote">El enlace abre WhatsApp con el resumen de tu pedido.</p>
+  </footer>
+</aside>
+
+<div class="fixed top-4 right-4 bg-white border border-line rounded-lg shadow-[0_10px_26px_rgba(26,37,54,0.2)] p-[11px_16px_11px_12px] flex items-center gap-[11px] text-sm font-medium z-[120] -translate-y-[18px] opacity-0 pointer-events-none transition-all duration-200 max-w-[min(380px,calc(100vw-32px))]" id="toast" role="status" aria-live="polite">
+  <span class="w-6 h-6 rounded-full bg-action text-white grid place-items-center flex-none">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  </span>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+  (function(){
+    var RATE = 36.50;
+    var WHATSAPP_NUMBER = "584140000000";
+    var PRODUCTS = [];
+    var PLACEHOLDER_CARDS = 6;
+
+    var $ = function(id){ return document.getElementById(id); };
+    var fmtUSD = function(n){ return "$ " + n.toLocaleString("es-VE",{minimumFractionDigits:2,maximumFractionDigits:2}); };
+    var fmtBs = function(n){ return "Bs " + n.toLocaleString("es-VE",{minimumFractionDigits:2,maximumFractionDigits:2}); };
+    var cart = {};
+    var activeCat = "all";
+    var query = "";
+
+    try { cart = JSON.parse(localStorage.getItem("fec_cart") || "{}"); } catch(e){ cart = {}; }
+    $("rateLabel").textContent = fmtBs(RATE).replace("Bs ","") + " por US$ 1,00";
+
+    /* ---------- Card templates ---------- */
+    var CAT_BASE  = "py-2 px-4 rounded-full border text-sm tracking-[0.02em] min-h-[42px] transition-colors flex items-center gap-1.5";
+    var CAT_IDLE  = "border-line bg-white text-ink font-medium hover:border-brand hover:text-brand";
+    var CAT_ON    = "border-brand bg-brand text-white font-semibold shadow-[0_2px_8px_rgba(238,102,16,0.35)]";
+
+    function productCard(p){
+      return '<article class="bg-white border border-line rounded-lg overflow-hidden flex flex-col transition-transform duration-200 hover:-translate-y-[3px] hover:shadow-[0_10px_24px_rgba(26,37,54,0.12)]" data-od-id="product-card-' + p.id + '">' +
+        '<div class="relative aspect-square bg-media overflow-hidden group">' +
+          '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">' +
+          '<span class="absolute top-2.5 left-2.5 bg-stock text-ink text-xs font-semibold px-2.5 py-1 rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.22)]">' + p.stock + '</span>' +
+        '</div>' +
+        '<div class="p-4 pt-3.5 flex flex-col gap-1.5 flex-1">' +
+          '<h2 class="font-display text-base font-semibold leading-snug tracking-[-0.01em]">' + p.name + '</h2>' +
+          '<p class="text-[12.5px] text-muted">Ref. ' + p.sku + '</p>' +
+          '<div class="flex items-baseline gap-2.5 mt-0.5">' +
+            '<span class="font-display text-[19px] font-bold tracking-[-0.01em]">' + fmtUSD(p.price) + '</span>' +
+            '<span class="text-[13px] text-muted font-medium">≈ ' + fmtBs(p.price * RATE) + '</span>' +
+          '</div>' +
+          '<button class="add mt-auto bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 min-h-11 transition-colors" data-id="' + p.id + '">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>' +
+            'Añadir al carrito' +
+          '</button>' +
+        '</div>' +
+      '</article>';
+    }
+
+    function placeholderCard(){
+      return '<article class="bg-white border border-line rounded-lg overflow-hidden flex flex-col transition-transform duration-200 hover:-translate-y-[3px] hover:shadow-[0_10px_24px_rgba(26,37,54,0.12)]" data-od-id="product-card-placeholder">' +
+        '<div class="relative aspect-square bg-media">' +
+          '<span class="absolute top-2.5 left-2.5 bg-stock text-ink text-xs font-semibold px-2.5 py-1 rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.22)]">En stock</span>' +
+        '</div>' +
+        '<div class="p-4 pt-3.5 flex flex-col gap-2 flex-1">' +
+          '<div class="h-4 bg-media rounded-md w-3/4"></div>' +
+          '<div class="h-3 bg-media rounded-md w-1/3"></div>' +
+          '<div class="flex items-baseline gap-2.5 mt-0.5">' +
+            '<div class="h-5 bg-media rounded-md w-20"></div>' +
+            '<div class="h-3.5 bg-media rounded-md w-24"></div>' +
+          '</div>' +
+          '<button class="add mt-auto bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 min-h-11 transition-colors">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>' +
+            'Añadir al carrito' +
+          '</button>' +
+        '</div>' +
+      '</article>';
+    }
+
+    /* ---------- Render grid ---------- */
+    function matches(p){
+      var inCat = activeCat === "all" || p.cat === activeCat;
+      var q = query.trim().toLowerCase();
+      var inQ = !q || p.name.toLowerCase().indexOf(q) !== -1 || p.sku.toLowerCase().indexOf(q) !== -1;
+      return inCat && inQ;
+    }
+    function renderGrid(){
+      var grid = $("grid");
+      if (PRODUCTS.length === 0){
+        var ph = "";
+        for (var i = 0; i < PLACEHOLDER_CARDS; i++) ph += placeholderCard();
+        grid.innerHTML = ph;
+        return;
+      }
+      var list = PRODUCTS.filter(matches);
+      if (list.length === 0){
+        grid.innerHTML = '<div class="sm:col-span-3 text-center py-16 text-muted">Sin resultados para esa búsqueda.</div>';
+        return;
+      }
+      grid.innerHTML = list.map(productCard).join("");
+    }
+
+    /* ---------- Filters ---------- */
+    var cats = document.querySelectorAll("[data-cat]");
+    function cls(el, addCls, rmCls){
+      el.classList.remove.apply(el.classList, rmCls.split(" "));
+      el.classList.add.apply(el.classList, addCls.split(" "));
+    }
+    function setActiveCat(btn){
+      cats.forEach(function(b){
+        if (b === btn) cls(b, CAT_ON, CAT_IDLE);
+        else cls(b, CAT_IDLE, CAT_ON);
+      });
+    }
+    cats.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        setActiveCat(btn);
+        activeCat = btn.getAttribute("data-cat");
+        renderGrid();
+      });
+    });
+    $("searchInput").addEventListener("input", function(){ query = this.value; renderGrid(); });
+    $("searchBtn").addEventListener("click", function(){ query = $("searchInput").value; renderGrid(); });
+    $("searchInput").addEventListener("keydown", function(e){ if(e.key === "Enter"){ query = this.value; renderGrid(); } });
+
+    /* ---------- Cart ---------- */
+    function badgeCount(){ return Object.keys(cart).reduce(function(s,k){ return s + cart[k]; }, 0); }
+    function updateBadge(){
+      var n = badgeCount();
+      var b = $("cartBadge");
+      b.textContent = n;
+      b.classList.toggle("hidden", n === 0);
+    }
+    function totals(){
+      var t = 0;
+      Object.keys(cart).forEach(function(id){
+        var p = PRODUCTS.filter(function(x){ return x.id === id; })[0];
+        if(p) t += p.price * cart[id];
+      });
+      return t;
+    }
+    function renderCart(){
+      var wrap = $("cartItems");
+      var keys = Object.keys(cart).filter(function(id){ return cart[id] > 0; });
+      if(keys.length === 0){
+        $("cartEmpty").classList.remove("hidden");
+        $("cartFoot").classList.add("hidden");
+        wrap.innerHTML = "";
+        updateBadge();
+        updateTotals();
+        return;
+      }
+      $("cartEmpty").classList.add("hidden");
+      $("cartFoot").classList.remove("hidden");
+      wrap.innerHTML = keys.map(function(id){
+        var p = PRODUCTS.filter(function(x){ return x.id === id; })[0];
+        return '<div class="ci flex gap-3 items-center" data-id="' + id + '">' +
+          '<img src="' + p.img + '" alt="' + p.name + '" class="w-[58px] h-[58px] rounded-lg object-cover border border-line bg-media flex-none">' +
+          '<div class="flex-1 min-w-0">' +
+            '<p class="font-semibold text-sm leading-snug">' + p.name + '</p>' +
+            '<p class="text-[12.5px] text-muted mt-0.5 mb-1.5">' + fmtUSD(p.price) + ' · ' + fmtBs(p.price * RATE) + '</p>' +
+            '<div class="flex items-center gap-2">' +
+              '<div class="flex items-center border border-line rounded-lg overflow-hidden">' +
+                '<button class="w-7 h-8 grid place-items-center text-ink font-semibold hover:bg-canvas transition-colors" data-act="dec" aria-label="Reducir cantidad">−</button>' +
+                '<span class="min-w-[32px] text-center text-sm font-semibold">' + cart[id] + '</span>' +
+                '<button class="w-7 h-8 grid place-items-center text-ink font-semibold hover:bg-canvas transition-colors" data-act="inc" aria-label="Aumentar cantidad">+</button>' +
+              '</div>' +
+              '<span class="font-display font-semibold text-sm tracking-[-0.01em]">' + fmtUSD(p.price * cart[id]) + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<button class="text-muted w-[30px] h-[30px] rounded-md grid place-items-center flex-none hover:text-action hover:bg-[#fdeeee] transition-colors" data-act="rm" aria-label="Quitar del carrito">' +
+            '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>' +
+          '</button>' +
+        '</div>';
+      }).join("");
+      updateBadge();
+      updateTotals();
+    }
+    function updateTotals(){
+      var t = totals();
+      $("totalUsd").textContent = fmtUSD(t);
+      $("totalBs").textContent = fmtBs(t * RATE);
+      $("totalBig").textContent = fmtUSD(t);
+      $("waLink").classList.toggle("pointer-events-none", t === 0);
+      $("waLink").classList.toggle("opacity-50", t === 0);
+      var sede = $("sedeSelect").value;
+      var lines = Object.keys(cart).filter(function(id){ return cart[id] > 0; }).map(function(id){
+        var p = PRODUCTS.filter(function(x){ return x.id === id; })[0];
+        return "• " + cart[id] + " × " + p.name + " — " + fmtUSD(p.price * cart[id]) + " (" + fmtBs(p.price * RATE * cart[id]) + ")";
+      });
+      var msg = "Hola Ferretería El Catire, quiero confirmar mi pedido para " + sede + ":\n\n" +
+        lines.join("\n") +
+        "\n\nTotal: " + fmtUSD(t) + " (" + fmtBs(t * RATE) + ")";
+      $("waLink").href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+      $("waNote").textContent = "Pedido para " + sede + " · El enlace abre WhatsApp con el resumen.";
+    }
+    function persist(){ localStorage.setItem("fec_cart", JSON.stringify(cart)); }
+    function addToCart(id){
+      cart[id] = (cart[id] || 0) + 1;
+      persist(); updateBadge(); renderCart();
+      var p = PRODUCTS.filter(function(x){ return x.id === id; })[0];
+      showToast(p.name + " añadido al carrito");
+    }
+    $("grid").addEventListener("click", function(e){
+      var btn = e.target.closest(".add");
+      if(btn && btn.getAttribute("data-id")) addToCart(btn.getAttribute("data-id"));
+    });
+    $("cartItems").addEventListener("click", function(e){
+      var btn = e.target.closest("button");
+      if(!btn) return;
+      var row = btn.closest(".ci");
+      var id = row.getAttribute("data-id");
+      var act = btn.getAttribute("data-act");
+      if(act === "inc") cart[id] += 1;
+      if(act === "dec"){ cart[id] -= 1; if(cart[id] <= 0) delete cart[id]; }
+      if(act === "rm") delete cart[id];
+      persist(); renderCart(); updateBadge();
+    });
+
+    /* ---------- Drawer open/close ---------- */
+    function setCartOpen(open){
+      $("cart").classList.toggle("translate-x-0", open);
+      $("cartOverlay").classList.toggle("opacity-100", open);
+      $("cartOverlay").classList.toggle("pointer-events-auto", open);
+      $("cart").setAttribute("aria-hidden", open ? "false" : "true");
+      document.body.style.overflow = open ? "hidden" : "";
+    }
+    $("cartBtn").addEventListener("click", function(){ setCartOpen(true); });
+    $("cartClose").addEventListener("click", function(){ setCartOpen(false); });
+    $("cartOverlay").addEventListener("click", function(){ setCartOpen(false); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape") setCartOpen(false); });
+
+    /* ---------- Sede ---------- */
+    $("sedeSelect").addEventListener("change", function(){
+      localStorage.setItem("fec_sede", this.value);
+      $("cartSedeChip").textContent = this.value;
+      showToast("Sede activa: " + this.value);
+      updateTotals();
+    });
+    try { $("sedeSelect").value = localStorage.getItem("fec_sede") || "Sede Norte"; } catch(e){}
+    $("cartSedeChip").textContent = $("sedeSelect").value;
+
+    /* ---------- Logo = Inicio ---------- */
+    $("logoLink").addEventListener("click", function(e){
+      e.preventDefault();
+      activeCat = "all";
+      query = "";
+      $("searchInput").value = "";
+      setActiveCat(document.querySelector('[data-cat="all"]'));
+      renderGrid();
+      window.scrollTo(0, 0);
+    });
+
+    /* ---------- Toast ---------- */
+    var toastTimer = null;
+    function showToast(msg){
+      $("toastMsg").textContent = msg;
+      var t = $("toast");
+      t.classList.add("opacity-100", "translate-y-0");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function(){ t.classList.remove("opacity-100", "translate-y-0"); }, 2400);
+    }
+
+    /* ---------- Init ---------- */
+    setActiveCat(document.querySelector('.cat[data-cat="all"]'));
+    updateBadge();
+    renderGrid();
+    renderCart();
+  })();
+</script>
+</body>
+</html>
