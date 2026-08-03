@@ -1,6 +1,6 @@
 (function(){
   window.Fec = window.Fec || {};
-  Fec.RATE = 36.50;
+  
   Fec.WHATSAPP_NUMBER = "584140000000";
   Fec.PLACEHOLDER_CARDS = 6;
   Fec.CLASSES = {

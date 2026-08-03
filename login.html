@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferretería El Catire · Iniciar sesión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        screens: { sm: '720px', hdr: '900px' },
+        colors: {
+          brand: '#EE6610',
+          brandhover: '#CA570E',
+          stock: '#FBEF1F',
+          action: '#008824',
+          actionhover: '#036a1e',
+          ink: '#1A2536',
+          inkdeep: '#0B1220',
+          muted: '#64748B',
+          line: '#E2E8F0',
+          canvas: '#F8FAFC',
+          disabled: '#CBD5E1',
+          media: '#E9EDF2'
+        },
+        fontFamily: {
+          display: ['Poppins', 'Montserrat', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
+          body: ['Inter', 'Roboto', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif']
+        }
+      }
+    },
+    safelist: ['opacity-100', 'pointer-events-auto', 'translate-x-0', 'translate-y-0', 'hidden']
+  };
+</script>
+<style>
+  :focus-visible{outline:2px solid #EE6610;outline-offset:2px}
+</style>
+</head>
+<body class="bg-canvas text-ink font-body antialiased text-[15px] leading-normal">
+
+<div class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+
+  <section class="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16">
+    <a class="flex items-center self-start mb-8" href="index.html" data-od-id="logo-home" aria-label="Ferretería El Catire, ir al catálogo">
+      <img src="img/fec.jpg" alt="Logo Ferretería El Catire" class="h-16 w-auto rounded-2xl object-contain shadow-[0_1px_4px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-105">
+    </a>
+
+    <div class="w-full max-w-[420px]" data-od-id="login-card">
+      <h1 class="font-display font-bold text-[26px] text-ink tracking-[-0.01em]">Iniciar sesión</h1>
+      <p class="text-muted text-sm mt-1 mb-7">Accede para continuar con tu pedido.</p>
+
+      <form id="loginForm" class="flex flex-col gap-4" novalidate>
+        <div class="flex flex-col gap-1.5">
+          <label for="loginEmail" class="text-sm font-semibold text-ink">Correo</label>
+          <input id="loginEmail" name="email" type="email" required placeholder="tu@correo.com" autocomplete="email"
+            class="w-full rounded-lg border border-line bg-white px-3.5 py-3 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20">
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="loginPassword" class="text-sm font-semibold text-ink">Contraseña</label>
+          <input id="loginPassword" name="password" type="password" required placeholder="Tu contraseña" autocomplete="current-password"
+            class="w-full rounded-lg border border-line bg-white px-3.5 py-3 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20">
+        </div>
+
+        <button type="submit" class="mt-1 flex items-center justify-center gap-2 bg-brand hover:bg-brandhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors shadow-[0_2px_8px_rgba(238,102,16,0.3)]" data-od-id="login-submit">
+          Iniciar Sesión
+        </button>
+      </form>
+
+      <p class="text-center text-sm text-muted mt-5">
+        ¿No tienes cuenta?
+        <a href="register.html" class="font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors" data-od-id="goto-register">Regístrate</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden bg-inkdeep h-64 lg:h-screen" data-od-id="slider">
+    <div id="sliderTrack" class="flex h-full will-change-transform"></div>
+
+    <div class="absolute inset-0 bg-gradient-to-t from-inkdeep/90 via-inkdeep/30 to-inkdeep/10 pointer-events-none"></div>
+
+    <div class="absolute bottom-10 left-6 sm:left-10 max-w-[420px] pointer-events-none">
+      <p class="font-display text-white text-2xl sm:text-3xl font-bold leading-snug">Todo lo que necesitas para tu proyecto</p>
+      <p class="text-white/80 text-sm mt-2">Ferretería El Catire · Maracaibo</p>
+    </div>
+
+    <button id="sliderPrev" class="absolute top-1/2 -translate-y-1/2 left-3 w-10 h-10 grid place-items-center rounded-full bg-white/15 border border-white/25 text-white backdrop-blur-sm hover:bg-white/30 transition-colors" aria-label="Imagen anterior">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <button id="sliderNext" class="absolute top-1/2 -translate-y-1/2 right-3 w-10 h-10 grid place-items-center rounded-full bg-white/15 border border-white/25 text-white backdrop-blur-sm hover:bg-white/30 transition-colors" aria-label="Siguiente imagen">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+
+    <div id="sliderDots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2"></div>
+  </section>
+
+</div>
+
+<div class="fixed top-4 right-4 bg-white border border-line rounded-lg shadow-[0_10px_26px_rgba(26,37,54,0.2)] p-[11px_16px_11px_12px] flex items-center gap-[11px] text-sm font-medium z-[120] -translate-y-[18px] opacity-0 pointer-events-none transition-all duration-200 max-w-[min(380px,calc(100vw-32px))]" id="toast" role="status" aria-live="polite">
+  <span class="w-6 h-6 rounded-full bg-action text-white grid place-items-center flex-none">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  </span>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+(function(){
+  /* ===== Aquí pones tus imágenes del carrusel ===== */
+  var SLIDER_IMAGES = [
+    "img/slider/img1.jpeg",
+    "img/slider/img2.jpeg",
+    "img/slider/img3.jpeg",
+    "img/slider/img4.jpeg"
+  ];
+  /* ================================================ */
+
+  var track = document.getElementById("sliderTrack");
+  var dotsWrap = document.getElementById("sliderDots");
+  var n = 0, idx = 0, timer = null;
+  var FALLBACK = "linear-gradient(135deg,#EE6610,#CA570E 60%,#7a3b06)";
+
+  function buildSlides(){
+    var list = SLIDER_IMAGES.filter(Boolean);
+    if(!list.length) list = [null];
+    list.forEach(function(src, i){
+      var slide = document.createElement("div");
+      slide.className = "relative w-full h-full flex-none grid place-items-center";
+      var img = document.createElement("img");
+      img.alt = "Imagen promocional Ferretería El Catire";
+      img.className = "w-full h-full object-cover";
+      img.src = src;
+      img.onerror = function(){
+        this.parentElement.style.background = FALLBACK;
+        this.remove();
+      };
+      slide.appendChild(img);
+      track.appendChild(slide);
+    });
+    n = list.length;
+    track.style.width = (n * 100) + "%";
+  }
+
+  function makeDots(){
+    dotsWrap.innerHTML = "";
+    for(var i = 0; i < n; i++){
+      var d = document.createElement("button");
+      d.className = "w-2 h-2 rounded-full transition-all duration-300";
+      d.style.background = i === idx ? "#ffffff" : "rgba(255,255,255,0.4)";
+      d.style.width = i === idx ? "22px" : "8px";
+      d.setAttribute("aria-label", "Ir a la imagen " + (i + 1));
+      (function(k){
+        d.addEventListener("click", function(){ go(k); restart(); });
+      })(i);
+      dotsWrap.appendChild(d);
+    }
+  }
+
+  function go(i){
+    idx = ((i % n) + n) % n;
+    track.style.transition = "transform 1200ms ease-in-out";
+    track.style.transform = "translateX(-" + (idx * 100) + "%)";
+    makeDots();
+  }
+
+  function next(){ go(idx + 1); }
+  function prev(){ go(idx - 1); }
+  function restart(){
+    clearInterval(timer);
+    timer = setInterval(next, 4200);
+  }
+
+  buildSlides();
+  makeDots();
+  restart();
+
+  document.getElementById("sliderNext").addEventListener("click", function(){ next(); restart(); });
+  document.getElementById("sliderPrev").addEventListener("click", function(){ prev(); restart(); });
+})();
+
+(function(){
+  var toastTimer = null;
+  function showToast(msg){
+    document.getElementById("toastMsg").textContent = msg;
+    var t = document.getElementById("toast");
+    t.classList.add("opacity-100", "translate-y-0");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove("opacity-100", "translate-y-0"); }, 2600);
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var email = document.getElementById("loginEmail").value.trim();
+    var pass = document.getElementById("loginPassword").value;
+    if(!email || !pass){
+      showToast("Completa todos los campos.");
+      return;
+    }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      showToast("Ingresa un correo válido.");
+      return;
+    }
+    showToast("Bienvenido de nuevo. Pronto conectaremos el acceso.");
+  });
+})();
+</script>
+</body>
+</html>
