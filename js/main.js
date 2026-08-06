@@ -1,27 +1,27 @@
 (function(){
-  var URL = 'https://ve.dolarapi.com/v1/dolares/oficial';
+  let URL = 'https://ve.dolarapi.com/v1/dolares/oficial';
 
-  var $ = function(id){ return document.getElementById(id); };
+  let $ = function(id){ return document.getElementById(id); };
 
   function labelText(rate){
-    var n = Number(rate) || 0;
+    let n = Number(rate) || 0;
     return n.toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2}) + " por US$ 1,00";
   }
 
   function setRateLabel(rate){
-    var label = $("rateLabel");
+    let label = $("rateLabel");
     if (label) label.textContent = labelText(rate);
   }
 
   async function loadRate(){
     try{
-      var res = await fetch(URL);
+      let res = await fetch(URL);
       if(!res.ok) throw new Error('HTTP ' + res.status);
-      var data = await res.json();
+      let data = await res.json();
 
-      var rate = null;
+      let rate = null;
       if (Array.isArray(data) && data.length){
-        var first = data[0] || {};
+        let first = data[0] || {};
         rate = first.promedio || first.venta || first.compra || first.ask || first.bid || first.valor || first.price;
       } else if (data && typeof data === 'object'){
         rate = data.promedio || data.venta || data.compra || data.ask || data.bid || data.valor || data.price || data.rate || data.valor_oficial;
