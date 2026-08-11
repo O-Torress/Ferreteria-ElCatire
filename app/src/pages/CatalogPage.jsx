@@ -10,7 +10,7 @@ import { useCart } from '../context/CartContext'
 import { useSede } from '../context/SedeContext'
 
 export default function CatalogPage() {
-  const { products, stockById, sedes, loading } = useProducts()
+  const { products, sedes, loading, error } = useProducts()
   const { rate, rateLabel } = useCart()
   const { sede, setSede } = useSede()
 
@@ -25,7 +25,7 @@ export default function CatalogPage() {
     return products.filter((p) => {
       const inCat = cat === 'all' || p.categoria === cat
       const inQ = !q || p.nombre.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)
-      return inCat && inQ
+      return p.activo && inCat && inQ
     })
   }, [products, cat, query])
 
@@ -67,12 +67,18 @@ export default function CatalogPage() {
             </div>
           ) : list.length === 0 ? (
             <div className="sm:col-span-3 text-center py-16 text-muted">
-              {query || cat !== 'all' ? 'Sin resultados para esa búsqueda.' : 'Aún no hay productos publicados.'}
+              {error ? (
+                <span className="text-[#b91c1c]">Error al cargar: {error}</span>
+              ) : query || cat !== 'all' ? (
+                'Sin resultados para esa búsqueda.'
+              ) : (
+                'Aún no hay productos publicados.'
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {list.map((p) => (
-                <ProductCard key={p.id} product={p} stockQty={stockById[p.id]?.[currentSede.id]} rate={rate} />
+                <ProductCard key={p.id} product={p} stockQty={p.stock} rate={rate} />
               ))}
             </div>
           )}

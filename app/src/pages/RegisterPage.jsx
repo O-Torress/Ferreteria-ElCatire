@@ -51,13 +51,6 @@ export default function RegisterPage() {
     }
 
     if (data?.user) {
-      await supabase.from('perfiles').insert({
-        id: data.user.id,
-        nombre,
-        apellido,
-        rol: 'cliente'
-      }).maybeSingle()
-
       setMsg('Cuenta creada. Revisa tu correo para confirmar y luego inicia sesión.')
       setTimeout(() => navigate('/login'), 1800)
     }

@@ -27,14 +27,14 @@ export function AuthProvider({ children }) {
       return
     }
     supabase
-      .from('perfiles')
+      .from('Perfiles')
       .select('*')
-      .eq('id', user.id)
+      .eq('email', user.email)
       .maybeSingle()
       .then(({ data }) => setProfile(data ?? null))
   }, [user])
 
-  const isAdmin = Boolean(profile?.rol === 'admin')
+  const isAdmin = Boolean(profile?.rol_user === 'admin')
 
   return (
     <AuthContext.Provider value={{ user, profile, isAdmin, loading }}>

@@ -36,7 +36,7 @@ export default function AdminLayout() {
       <div className="max-w-[1280px] mx-auto px-5 py-6 grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6">
         <nav className="flex md:flex-col gap-1.5">
           <NavLink to="/admin/productos" className={linkCls}>Productos</NavLink>
-          <NavLink to="/admin/stock" className={linkCls}>Stock y sedes</NavLink>
+          <NavLink to="/admin/stock" className={linkCls}>Stock</NavLink>
         </nav>
         <main className="min-w-0">
           {loading ? (

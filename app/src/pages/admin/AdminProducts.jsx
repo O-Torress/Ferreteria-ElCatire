@@ -3,7 +3,7 @@ import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
 import { categoryLabel } from '../../lib/utils'
 
-const EMPTY = { nombre: '', sku: '', categoria: 'herramientas', precio_usd: '', imagen_url: '' }
+const EMPTY = { nombre: '', codigo: '', categoria: 'herramientas', precio_usd: '', imagen_url: '' }
 
 const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20'
 
@@ -26,7 +26,7 @@ export default function AdminProducts() {
 
   function startEdit(p) {
     setEditing(p.id)
-    setForm({ nombre: p.nombre, sku: p.sku, categoria: p.categoria, precio_usd: String(p.precio_usd), imagen_url: p.imagen_url || '' })
+    setForm({ nombre: p.nombre, codigo: String(p.sku), categoria: p.categoria, precio_usd: String(p.precio_usd), imagen_url: p.imagen_url || '' })
     setErr('')
     setMsg('')
   }
@@ -43,24 +43,25 @@ export default function AdminProducts() {
     setErr('')
     setMsg('')
     const precio = Number(form.precio_usd)
-    if (!form.nombre || !form.sku || !isFinite(precio) || precio < 0) {
-      setErr('Completa nombre, referencia (SKU) y un precio válido.')
+    const codigo = Number(form.codigo)
+    if (!form.nombre || !Number.isInteger(codigo) || codigo <= 0 || !isFinite(precio) || precio < 0) {
+      setErr('Completa nombre, un código numérico válido y un precio válido.')
       return
     }
     const payload = {
       nombre: form.nombre.trim(),
-      sku: form.sku.trim(),
+      codigo,
       categoria: form.categoria,
-      precio_usd: precio,
-      imagen_url: form.imagen_url.trim() || null
+      precio_detal: precio,
+      img_url: form.imagen_url.trim() || null
     }
     setSaving(true)
     let error = null
     if (isNew) {
-      const res = await supabase.from('productos').insert(payload).maybeSingle()
+      const res = await supabase.from('Productos').insert(payload).maybeSingle()
       error = res.error
     } else {
-      const res = await supabase.from('productos').update(payload).eq('id', editing).maybeSingle()
+      const res = await supabase.from('Productos').update(payload).eq('codigo', editing).maybeSingle()
       error = res.error
     }
     setSaving(false)
@@ -75,13 +76,13 @@ export default function AdminProducts() {
   }
 
   async function toggleActive(p) {
-    const { error } = await supabase.from('productos').update({ activo: !p.activo }).eq('id', p.id)
+    const { error } = await supabase.from('Productos').update({ deleted: p.activo }).eq('codigo', p.id)
     if (!error) reload()
   }
 
   async function remove(p) {
     if (!confirm('¿Eliminar el producto "' + p.nombre + '"? Esta acción no se puede deshacer.')) return
-    const { error } = await supabase.from('productos').delete().eq('id', p.id)
+    const { error } = await supabase.from('Productos').delete().eq('codigo', p.id)
     if (!error) {
       setMsg('Producto eliminado.')
       reload()
@@ -114,8 +115,8 @@ export default function AdminProducts() {
             <input value={form.nombre} onChange={(e) => setForm((f) => ({ ...f, nombre: e.target.value }))} placeholder="Ej. Martillo de uña 16 oz" className={inputCls} />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-ink">Referencia (SKU)</label>
-            <input value={form.sku} onChange={(e) => setForm((f) => ({ ...f, sku: e.target.value }))} placeholder="Ej. FEC-HAM-016" className={inputCls} />
+            <label className="text-sm font-semibold text-ink">Código</label>
+            <input type="number" min="1" step="1" value={form.codigo} onChange={(e) => setForm((f) => ({ ...f, codigo: e.target.value }))} placeholder="Ej. 101" className={inputCls} />
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-ink">Categoría</label>
