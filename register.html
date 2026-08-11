@@ -146,10 +146,10 @@
     if(!list.length) list = [null];
     list.forEach(function(src, i){
       let slide = document.createElement("div");
-      slide.className = "relative w-full h-full flex-none grid place-items-center";
+      slide.className = "relative w-full h-full flex-none grid place-items-center p-6 sm:p-10";
       let img = document.createElement("img");
       img.alt = "Imagen promocional Ferretería El Catire";
-      img.className = "w-full h-full object-contain";
+      img.className = "max-h-full max-w-full object-contain";
       img.src = src;
       img.onerror = function(){
         this.parentElement.style.background = FALLBACK;

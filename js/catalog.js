@@ -1,7 +1,7 @@
 (function(){
   var Fec = window.Fec;
   var $ = Fec.$;
-  var PRODUCTS = Fec.PRODUCTS;
+  var PRODUCTS = Fec.PRODUCTS || [];
   var CAT_BASE = Fec.CLASSES.CAT_BASE;
   var CAT_IDLE = Fec.CLASSES.CAT_IDLE;
   var CAT_ON = Fec.CLASSES.CAT_ON;

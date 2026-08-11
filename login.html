@@ -108,87 +108,6 @@
 </div>
 
 <script>
-(function(){
-  
-  let SLIDER_IMAGES = [
-    "img/slider/img1.PNG",
-    "img/slider/img2.jpg",
-    "img/slider/img3.jpg",
-    "img/slider/img4.jpg"
-  ];
- 
-  let track = document.getElementById("sliderTrack");
-  let dotsWrap = document.getElementById("sliderDots");
-  let n = 0, idx = 0, timer = null;
-  let FALLBACK = "linear-gradient(135deg,#EE6610,#CA570E 60%,#7a3b06)";
-
-  function buildSlides(){
-    let list = SLIDER_IMAGES.filter(Boolean);
-    if(!list.length) list = [null];
-    list.forEach(function(src, i){
-      let slide = document.createElement("div");
-      slide.className = "relative w-full h-full flex-none grid place-items-center";
-      let img = document.createElement("img");
-      img.alt = "Imagen promocional Ferretería El Catire";
-      img.className = "w-full h-full object-contain";
-      img.src = src;
-      img.onerror = function(){
-        this.parentElement.style.background = FALLBACK;
-        this.remove();
-      };
-      slide.appendChild(img);
-      track.appendChild(slide);
-    });
-    n = list.length;
-    track.style.width = (n * 100) + "%";
-  }
-
-  function makeDots(){
-    dotsWrap.innerHTML = "";
-    for(let i = 0; i < n; i++){
-      let d = document.createElement("button");
-      d.className = "w-2 h-2 rounded-full transition-all duration-300";
-      d.style.background = i === idx ? "#ffffff" : "rgba(255,255,255,0.4)";
-      d.style.width = i === idx ? "22px" : "8px";
-      d.setAttribute("aria-label", "Ir a la imagen " + (i + 1));
-      (function(k){
-        d.addEventListener("click", function(){ go(k); restart(); });
-      })(i);
-      dotsWrap.appendChild(d);
-    }
-  }
-
-  function go(i){
-    idx = ((i % n) + n) % n;
-    track.style.transition = "transform 1200ms ease-in-out";
-    track.style.transform = "translateX(-" + (idx * 100) + "%)";
-    makeDots();
-  }
-
-  function next(){ go(idx + 1); }
-  function prev(){ go(idx - 1); }
-  function restart(){
-    clearInterval(timer);
-    timer = setInterval(next, 4200);
-  }
-
-  buildSlides();
-  makeDots();
-  restart();
-
-  document.getElementById("sliderNext").addEventListener("click", function(){ next(); restart(); });
-  document.getElementById("sliderPrev").addEventListener("click", function(){ prev(); restart(); });
-})();
-
-(function(){
-  let toastTimer = null;
-  function showToast(msg){
-    document.getElementById("toastMsg").textContent = msg;
-    let t = document.getElementById("toast");
-    t.classList.add("opacity-100", "translate-y-0");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){ t.classList.remove("opacity-100", "translate-y-0"); }, 2600);
-  }
 
   document.getElementById("loginForm").addEventListener("submit", function(e){
     e.preventDefault();
@@ -204,7 +123,7 @@
     }
     showToast("Bienvenido de nuevo. Pronto conectaremos el acceso.");
   });
-})();
+
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
   var $ = Fec.$;
   var fmtUSD = Fec.fmtUSD;
   var fmtBs = Fec.fmtBs;
-  var PRODUCTS = Fec.PRODUCTS;
+  var PRODUCTS = Fec.PRODUCTS || [];
 
   var cart = {};
   try { cart = JSON.parse(localStorage.getItem("fec_cart") || "{}"); } catch(e){ cart = {}; }
@@ -28,7 +28,7 @@
 
   function renderCart(){
     var wrap = $("cartItems");
-    var keys = Object.keys(cart).filter(function(id){ return cart[id] > 0; });
+    var keys = Object.keys(cart).filter(function(id){ return cart[id] > 0 && PRODUCTS.some(function(x){ return x.id === id; }); });
     if(keys.length === 0){
       $("cartEmpty").classList.remove("hidden");
       $("cartFoot").classList.add("hidden");
@@ -72,7 +72,7 @@
     $("waLink").classList.toggle("pointer-events-none", t === 0);
     $("waLink").classList.toggle("opacity-50", t === 0);
     var sede = $("sedeSelect").value;
-    var lines = Object.keys(cart).filter(function(id){ return cart[id] > 0; }).map(function(id){
+    var lines = Object.keys(cart).filter(function(id){ return cart[id] > 0 && PRODUCTS.some(function(x){ return x.id === id; }); }).map(function(id){
       var p = PRODUCTS.filter(function(x){ return x.id === id; })[0];
       return "• " + cart[id] + " × " + p.name + " — " + fmtUSD(p.price * cart[id]) + " (" + fmtBs(p.price * Fec.RATE * cart[id]) + ")";
     });
