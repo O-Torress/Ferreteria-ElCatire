@@ -5,7 +5,7 @@ export const CATEGORIES = [
   { id: 'plomeria', label: 'Plomería' }
 ]
 
-export const WHATSAPP_NUMBER = '584140000000'
+export const WHATSAPP_NUMBER = '584126912280'
 export const DEFAULT_RATE = 36.5
 
 export function fmtUSD(n) {
