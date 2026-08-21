@@ -1,13 +1,15 @@
+import { Link } from 'react-router-dom'
 import { fmtUSD, fmtBs } from '../lib/utils'
 import { useCart } from '../context/CartContext'
 
 export default function ProductCard({ product, stockQty, rate }) {
   const { add } = useCart()
   const out = Number(stockQty ?? 0) <= 0
+  const href = '/producto/' + product.id
 
   return (
     <article className="bg-white border border-line rounded-lg overflow-hidden flex flex-col transition-transform duration-200 hover:-translate-y-[3px] hover:shadow-[0_10px_24px_rgba(26,37,54,0.12)]">
-      <div className="relative aspect-square bg-media overflow-hidden group">
+      <Link to={href} className="relative aspect-square bg-media overflow-hidden group" aria-label={'Ver detalles de ' + product.nombre}>
         {product.imagen_url ? (
           <img
             src={product.imagen_url}
@@ -23,10 +25,11 @@ export default function ProductCard({ product, stockQty, rate }) {
         <span className="absolute top-2.5 left-2.5 bg-stock text-ink text-xs font-semibold px-2.5 py-1 rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.22)]">
           {out ? 'Agotado' : 'En stock'}
         </span>
-      </div>
+      </Link>
       <div className="p-4 pt-3.5 flex flex-col gap-1.5 flex-1">
-        <h2 className="font-display text-base font-semibold leading-snug tracking-[-0.01em]">{product.nombre}</h2>
-        <p className="text-[12.5px] text-muted">Ref. {product.sku}</p>
+        <h2 className="font-display text-base font-semibold leading-snug tracking-[-0.01em]">
+          <Link to={href} className="hover:text-brand transition-colors">{product.nombre}</Link>
+        </h2>
         <div className="flex items-baseline gap-2.5 mt-0.5">
           <span className="font-display text-[19px] font-bold tracking-[-0.01em]">{fmtUSD(product.precio_usd)}</span>
           <span className="text-[13px] text-muted font-medium">≈ {fmtBs(product.precio_usd * rate)}</span>

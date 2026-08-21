@@ -117,7 +117,7 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm text-muted mt-5">
             ¿Ya tienes cuenta?
-            <Link to="/login" className="font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors">Inicia sesión</Link>
+            <Link to="/login" className="font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors"> Inicia sesión</Link>
           </p>
         </div>
       </section>

@@ -42,7 +42,7 @@ export function CartProvider({ children }) {
     localStorage.setItem(STORE_KEY, JSON.stringify(items))
   }, [items])
 
-  const add = (id) => setItems((p) => ({ ...p, [id]: (p[id] || 0) + 1 }))
+  const add = (id, n = 1) => setItems((p) => ({ ...p, [id]: (p[id] || 0) + Math.max(1, Math.round(Number(n)) || 1) }))
   const dec = (id) =>
     setItems((p) => {
       const next = { ...p }

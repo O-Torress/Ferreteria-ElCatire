@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import CategoryFilters from '../components/CategoryFilters'
+import CategoriesDrawer from '../components/CategoriesDrawer'
 import ProductCard from '../components/ProductCard'
 import CartDrawer from '../components/CartDrawer'
 import SedeSelect from '../components/SedeSelect'
@@ -18,6 +18,7 @@ export default function CatalogPage() {
   const [cat, setCat] = useState('all')
   const [query, setQuery] = useState('')
   const [cartOpen, setCartOpen] = useState(false)
+  const [catsOpen, setCatsOpen] = useState(false)
 
   const currentSede = sedes.find((s) => s.id === sede) || sedes[0] || { id: 'Sede Norte', nombre: 'Sede Norte' }
 
@@ -59,7 +60,18 @@ export default function CatalogPage() {
             </div>
           </div>
 
-          <CategoryFilters active={cat} onChange={setCat} />
+          <div className="mt-5 mb-5">
+            <button
+              onClick={() => setCatsOpen(true)}
+              className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px]"
+              aria-haspopup="dialog"
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+              Ver categorías
+              {cat !== 'all' && <span className="text-brand">· {categoryLabel(cat)}</span>}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
 
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -97,6 +109,7 @@ export default function CatalogPage() {
 
       <Footer />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <CategoriesDrawer open={catsOpen} onClose={() => setCatsOpen(false)} active={cat} onSelect={setCat} />
     </div>
   )
 }

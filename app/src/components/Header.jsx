@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 
 export default function Header({ query, onQuery, onOpenCart }) {
   const { count } = useCart()
-  const { user, isAdmin } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
 
   return (
@@ -48,9 +48,9 @@ export default function Header({ query, onQuery, onOpenCart }) {
 
           {user ? (
             <button
-              onClick={() => navigate(isAdmin ? '/admin/productos' : '/')}
+              onClick={() => navigate('/cuenta')}
               className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-white/30 transition-colors"
-              aria-label={isAdmin ? 'Ir al panel de administración' : 'Ir a inicio de sesión'}
+              aria-label="Mi cuenta: editar datos y cerrar sesión"
               title={user.email}
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>

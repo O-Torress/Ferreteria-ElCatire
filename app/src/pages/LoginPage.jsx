@@ -90,7 +90,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-muted mt-5">
             ¿No tienes cuenta?
-            <Link to="/register" className="font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors">Regístrate</Link>
+            <Link to="/register" className="font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors"> Regístrate</Link>
           </p>
         </div>
       </section>
