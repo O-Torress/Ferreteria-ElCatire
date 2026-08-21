@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import Header from '../components/Header'
@@ -157,11 +157,6 @@ export default function AccountPage() {
               <p className="text-muted text-sm mt-0.5">Cierra sesión en este dispositivo.</p>
             </div>
             <div className="flex items-center gap-2.5">
-              {isAdmin && (
-                <Link to="/admin/productos" className="text-sm font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors px-1 py-2.5">
-                  Panel de administración
-                </Link>
-              )}
               <button onClick={logout} className="text-sm font-semibold text-[#b91c1c] border border-[#b91c1c]/40 hover:bg-[#fdeeee] px-4 py-2.5 rounded-lg min-h-[42px] transition-colors">
                 Cerrar sesión
               </button>

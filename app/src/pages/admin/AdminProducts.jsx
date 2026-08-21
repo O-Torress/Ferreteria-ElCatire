@@ -3,7 +3,7 @@ import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
 import { categoryLabel } from '../../lib/utils'
 
-const EMPTY = { nombre: '', codigo: '', categoria: 'herramientas', precio_usd: '', imagen_url: '' }
+const EMPTY = { nombre: '', codigo: '', categoria: 'herramientas', precio_usd: '', imagen_url: '', marca: '', descripcion: '', stock: '' }
 
 const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20'
 
@@ -26,7 +26,16 @@ export default function AdminProducts() {
 
   function startEdit(p) {
     setEditing(p.id)
-    setForm({ nombre: p.nombre, codigo: String(p.sku), categoria: p.categoria, precio_usd: String(p.precio_usd), imagen_url: p.imagen_url || '' })
+    setForm({
+      nombre: p.nombre,
+      codigo: String(p.sku),
+      categoria: p.categoria,
+      precio_usd: String(p.precio_usd),
+      imagen_url: p.imagen_url || '',
+      marca: p.marca || '',
+      descripcion: p.descripcion || '',
+      stock: String(p.stock ?? 0)
+    })
     setErr('')
     setMsg('')
   }
@@ -53,7 +62,10 @@ export default function AdminProducts() {
       codigo,
       categoria: form.categoria,
       precio_detal: precio,
-      img_url: form.imagen_url.trim() || null
+      img_url: form.imagen_url.trim() || null,
+      marca: form.marca.trim() || null,
+      descripcion: form.descripcion.trim() || null,
+      stock: Math.max(0, Math.round(Number(form.stock) || 0))
     }
     setSaving(true)
     let error = null
@@ -121,15 +133,27 @@ export default function AdminProducts() {
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-ink">Categoría</label>
             <select value={form.categoria} onChange={(e) => setForm((f) => ({ ...f, categoria: e.target.value }))} className={inputCls}>
-              <option value="herramientas">Herramientas</option>
-              <option value="pinturas">Pinturas</option>
-              <option value="electricidad">Electricidad</option>
-              <option value="plomeria">Plomería</option>
+              <option value="Herramientas">Herramientas</option>
+              <option value="Pinturas">Pinturas</option>
+              <option value="Electricidad">Electricidad</option>
+              <option value="Plomeria">Plomería</option>
             </select>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-ink">Marca</label>
+            <input value={form.marca} onChange={(e) => setForm((f) => ({ ...f, marca: e.target.value }))} placeholder="Ej. Stanley" className={inputCls} />
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-ink">Precio (US$)</label>
             <input type="number" step="0.01" min="0" value={form.precio_usd} onChange={(e) => setForm((f) => ({ ...f, precio_usd: e.target.value }))} placeholder="0.00" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-ink">Stock</label>
+            <input type="number" min="0" step="1" value={form.stock} onChange={(e) => setForm((f) => ({ ...f, stock: e.target.value }))} placeholder="Ej. 10" className={inputCls} />
+          </div>
+          <div className="flex flex-col gap-1.5 sm:col-span-2">
+            <label className="text-sm font-semibold text-ink">Descripción</label>
+            <textarea rows="3" value={form.descripcion} onChange={(e) => setForm((f) => ({ ...f, descripcion: e.target.value }))} placeholder="Describe el producto: medidas, materiales, uso recomendado…" className={inputCls + ' resize-y'}></textarea>
           </div>
           <div className="flex flex-col gap-1.5 sm:col-span-2">
             <label className="text-sm font-semibold text-ink">URL de la imagen</label>
@@ -176,7 +200,6 @@ export default function AdminProducts() {
                       </div>
                       <div className="min-w-0">
                         <p className="font-semibold text-ink leading-snug">{p.nombre}</p>
-                        <p className="text-[12px] text-muted">Ref. {p.sku}</p>
                       </div>
                     </div>
                   </td>
