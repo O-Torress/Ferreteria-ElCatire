@@ -8,6 +8,7 @@ import SedeSelect from '../components/SedeSelect'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { useSede } from '../context/SedeContext'
+import { normalizeText, categoryLabel } from '../lib/utils'
 
 export default function CatalogPage() {
   const { products, sedes, loading, error } = useProducts()
@@ -20,18 +21,27 @@ export default function CatalogPage() {
 
   const currentSede = sedes.find((s) => s.id === sede) || sedes[0] || { id: 'Sede Norte', nombre: 'Sede Norte' }
 
+  const onQuery = (v) => {
+    setQuery(v)
+    if (v.trim() && cat !== 'all') setCat('all')
+  }
+
   const list = useMemo(() => {
-    const q = query.trim().toLowerCase()
+    const q = normalizeText(query.trim())
     return products.filter((p) => {
-      const inCat = cat === 'all' || p.categoria === cat
-      const inQ = !q || p.nombre.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)
-      return p.activo && inCat && inQ
+      if (!p.activo) return false
+      if (cat !== 'all' && p.categoria !== cat) return false
+      if (!q) return true
+      const hay = normalizeText(
+        [p.nombre, p.sku, p.marca, p.descripcion, categoryLabel(p.categoria)].filter(Boolean).join(' ')
+      )
+      return hay.includes(q)
     })
   }, [products, cat, query])
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header query={query} onQuery={setQuery} onOpenCart={() => setCartOpen(true)} />
+      <Header query={query} onQuery={onQuery} onOpenCart={() => setCartOpen(true)} />
 
       <main className="pt-6 pb-16 flex-1">
         <div className="max-w-[1280px] mx-auto px-5">

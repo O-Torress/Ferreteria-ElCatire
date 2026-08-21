@@ -31,7 +31,27 @@ export function AuthProvider({ children }) {
       .select('*')
       .eq('email', user.email)
       .maybeSingle()
-      .then(({ data }) => setProfile(data ?? null))
+      .then(async ({ data }) => {
+        if (data) {
+          setProfile(data)
+          return
+        }
+        const meta = user.user_metadata || {}
+        if (!meta.nombre && !meta.apellido) {
+          setProfile(null)
+          return
+        }
+        const { data: created } = await supabase
+          .from('Perfiles')
+          .insert({
+            email: user.email,
+            nombre: meta.nombre || '',
+            apellido: meta.apellido || '',
+            rol_user: 'cliente'
+          })
+          .maybeSingle()
+        setProfile(created ?? null)
+      })
   }, [user])
 
   const isAdmin = Boolean(profile?.rol_user === 'admin')

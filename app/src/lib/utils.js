@@ -8,6 +8,13 @@ export const CATEGORIES = [
 export const WHATSAPP_NUMBER = '584126912280'
 export const DEFAULT_RATE = 36.5
 
+export function normalizeText(s) {
+  return String(s ?? '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
 export function fmtUSD(n) {
   const v = Number(n) || 0
   return '$ ' + v.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })

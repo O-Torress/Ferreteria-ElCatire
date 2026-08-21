@@ -6,6 +6,8 @@ import Toast from '../components/Toast'
 
 const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-3 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20'
 
+const NAME_RE = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+$/
+
 export default function RegisterPage() {
   const [form, setForm] = useState({ nombre: '', apellido: '', email: '', pass: '', confirm: '' })
   const [loading, setLoading] = useState(false)
@@ -24,6 +26,10 @@ export default function RegisterPage() {
       setErr('Completa todos los campos.')
       return
     }
+    if (!NAME_RE.test(nombre.trim()) || !NAME_RE.test(apellido.trim())) {
+      setErr('El nombre y el apellido solo pueden contener letras, acentos y espacios.')
+      return
+    }
     if (pass.length < 6) {
       setErr('La contraseña debe tener al menos 6 caracteres.')
       return
@@ -37,11 +43,14 @@ export default function RegisterPage() {
       return
     }
 
+    const nombreLimpio = nombre.trim()
+    const apellidoLimpio = apellido.trim()
+
     setLoading(true)
     const { data, error } = await supabase.auth.signUp({
       email,
       password: pass,
-      options: { data: { nombre, apellido } }
+      options: { data: { nombre: nombreLimpio, apellido: apellidoLimpio } }
     })
     setLoading(false)
 
