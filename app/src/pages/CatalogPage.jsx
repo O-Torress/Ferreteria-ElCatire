@@ -5,6 +5,7 @@ import CategoriesDrawer from '../components/CategoriesDrawer'
 import ProductCard from '../components/ProductCard'
 import CartDrawer from '../components/CartDrawer'
 import SedeSelect from '../components/SedeSelect'
+import Pagination from '../components/Pagination'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { useSede } from '../context/SedeContext'
@@ -17,14 +18,23 @@ export default function CatalogPage() {
 
   const [cat, setCat] = useState('all')
   const [query, setQuery] = useState('')
+  const [page, setPage] = useState(1)
   const [cartOpen, setCartOpen] = useState(false)
   const [catsOpen, setCatsOpen] = useState(false)
+
+  const PER_PAGE = 9
 
   const currentSede = sedes.find((s) => s.id === sede) || sedes[0] || { id: 'Sede Norte', nombre: 'Sede Norte' }
 
   const onQuery = (v) => {
     setQuery(v)
+    setPage(1)
     if (v.trim() && cat !== 'all') setCat('all')
+  }
+
+  const onSelectCat = (c) => {
+    setCat(c)
+    setPage(1)
   }
 
   const list = useMemo(() => {
@@ -39,6 +49,15 @@ export default function CatalogPage() {
       return hay.includes(q)
     })
   }, [products, cat, query])
+
+  const totalPages = Math.ceil(list.length / PER_PAGE)
+  const safePage = Math.min(page, totalPages || 1)
+  const paged = list.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE)
+
+  const onPageChange = (p) => {
+    setPage(p)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -99,17 +118,19 @@ export default function CatalogPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              {list.map((p) => (
+              {paged.map((p) => (
                 <ProductCard key={p.id} product={p} stockQty={p.stock} rate={rate} />
               ))}
             </div>
           )}
+
+          <Pagination page={safePage} total={totalPages} onChange={onPageChange} />
         </div>
       </main>
 
       <Footer />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
-      <CategoriesDrawer open={catsOpen} onClose={() => setCatsOpen(false)} active={cat} onSelect={setCat} />
+      <CategoriesDrawer open={catsOpen} onClose={() => setCatsOpen(false)} active={cat} onSelect={onSelectCat} />
     </div>
   )
 }
