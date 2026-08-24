@@ -37,7 +37,6 @@ export default function CartDrawer({ open, onClose }) {
       >
         <header className="flex items-center gap-2 px-5 py-3.5 border-b border-line">
           <h2 className="font-display text-[19px] font-semibold tracking-[-0.01em]">Tu pedido</h2>
-          <span className="text-xs text-brand font-semibold bg-brand/10 border border-brand/35 rounded-full px-2.5 py-0.5">{sedeName}</span>
           <button onClick={onClose} className="w-10 h-10 ml-auto rounded-lg text-muted hover:bg-canvas hover:text-ink grid place-items-center transition-colors" aria-label="Cerrar carrito">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
           </button>
@@ -94,10 +93,10 @@ export default function CartDrawer({ open, onClose }) {
                 <div className="flex justify-between items-baseline text-sm border-t border-dashed border-line pt-2 mt-0.5"><span className="text-muted">Artículos</span><b className="font-display text-[19px] font-bold tracking-[-0.01em]">{count}</b></div>
               </div>
               <a className="flex items-center justify-center gap-2 bg-action hover:bg-actionhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors" href={waHref} target="_blank" rel="noopener">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.5 0-3-.4-4.2-1.1L3 20l1.1-5.3A8.4 8.4 0 1 1 21 11.5Z"/><path d="M9 9.5c.3 2 1.5 3.2 3.5 3.5.6.1 1.2-.4 1.2-1 0-.4-.2-.7-.5-.9"/></svg>
+                <img src="/img/ws.svg" alt="Persona" width="30" height="30" />
                 Confirmar pedido por WhatsApp
               </a>
-              <p className="text-xs text-muted text-center">Pedido para {sedeName} · El enlace abre WhatsApp con el resumen.</p>
+              <p className="text-xs text-muted text-center">El enlace abre WhatsApp con el resumen del peedido.</p>
             </footer>
           </>
         )}

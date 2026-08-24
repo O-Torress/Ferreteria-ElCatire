@@ -3,3 +3,4 @@ guia.txt
 node_modules
 pnpm-workspace.yaml
 .env
+dist

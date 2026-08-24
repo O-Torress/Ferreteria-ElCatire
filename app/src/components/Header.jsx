@@ -8,10 +8,10 @@ export default function Header({ query, onQuery, onOpenCart }) {
   const navigate = useNavigate()
 
   return (
-    <header className="bg-brand text-white sticky top-0 z-[60] shadow-[0_2px_10px_rgba(26,37,54,0.18)]">
+    <header className="bg-ink text-white sticky top-0 z-[60] shadow-[0_2px_10px_rgba(26,37,54,0.18)]">
       <div className="max-w-[1280px] mx-auto px-3.5 py-2.5 hdr:px-5 flex flex-wrap items-center gap-4 min-h-16 lg:flex-nowrap">
         <Link to="/" className="flex items-center" aria-label="Ferretería El Catire, ir a Inicio">
-          <img src="/img/fec.JPG" alt="Logo Ferretería El Catire" className="h-16 w-auto rounded-2xl object-contain shadow-[0_1px_4px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-105" />
+          <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-19 w-auto transition-transform duration-200 hover:scale-105" />
         </Link>
 
         <div className="flex-1 flex bg-white rounded-lg overflow-hidden max-w-[520px] mx-auto shadow-[0_1px_3px_rgba(0,0,0,0.18)] order-3 w-full lg:order-none lg:w-auto">

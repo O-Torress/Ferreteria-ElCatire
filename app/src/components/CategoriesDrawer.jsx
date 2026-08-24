@@ -29,7 +29,7 @@ export default function CategoriesDrawer({ open, onClose, active, onSelect }) {
         aria-label="Categorías del catálogo"
       >
         <header className="flex items-center gap-2 px-5 py-3.5 border-b border-line">
-          <h2 className="font-display text-[19px] font-semibold tracking-[-0.01em]">Categorías</h2>
+          <h2 className="font-display text-[19px] font-semibold tracking-[-0.01em]">Categorías <br /><p className="text-xs text-muted">Filtra el catálogo por categoría.</p> </h2>
           <button onClick={onClose} className="w-10 h-10 ml-auto rounded-lg text-muted hover:bg-canvas hover:text-ink grid place-items-center transition-colors" aria-label="Cerrar categorías">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
           </button>
@@ -60,10 +60,6 @@ export default function CategoriesDrawer({ open, onClose, active, onSelect }) {
             )
           })}
         </nav>
-
-        <footer className="border-t border-line px-5 py-3.5">
-          <p className="text-xs text-muted">Filtra el catálogo por categoría.</p>
-        </footer>
       </aside>
     </>
   )

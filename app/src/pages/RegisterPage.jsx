@@ -30,8 +30,8 @@ export default function RegisterPage() {
       setErr('El nombre y el apellido solo pueden contener letras, acentos y espacios.')
       return
     }
-    if (pass.length < 6) {
-      setErr('La contraseña debe tener al menos 6 caracteres.')
+    if (!/(?=.*[a-z])(?=^(?=.*\d).*[A-Z])(?=.*[!@#$%^&*()-+.]).{8,}$/.test(pass)) {
+      setErr('La contraseña debe tener al menos 8 caracteres incluyendo una letra minúscula, una letra mayúscula, un número y un carácter especial.')
       return
     }
     if (pass !== confirm) {
@@ -68,8 +68,8 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
       <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16">
-        <Link className="flex items-center self-start mb-8" to="/" aria-label="Ferretería El Catire, ir al catálogo">
-          <img src="/img/fec.JPG" alt="Logo Ferretería El Catire" className="h-16 w-auto rounded-2xl object-contain shadow-[0_1px_4px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-105" />
+        <Link className="flex items-center self-start mb-10" to="/" aria-label="Ferretería El Catire, ir al catálogo">
+          <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-50 w-auto transition-transform duration-200 hover:scale-105" />
         </Link>
 
         <div className="w-full max-w-[420px]">
@@ -96,7 +96,7 @@ export default function RegisterPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="regPass" className="text-sm font-semibold text-ink">Contraseña</label>
-                <input id="regPass" type="password" required placeholder="Mínimo 6 caracteres" autoComplete="new-password" value={form.pass} onChange={set('pass')} className={inputCls} />
+                <input id="regPass" type="password" required placeholder="Mínimo 8 caracteres" autoComplete="new-password" value={form.pass} onChange={set('pass')} className={inputCls} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="regConfirm" className="text-sm font-semibold text-ink">Confirmar contraseña</label>

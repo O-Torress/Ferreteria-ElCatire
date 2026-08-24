@@ -74,7 +74,7 @@ export default function LoginPage() {
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
       <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16">
         <Link className="flex items-center self-start mb-8" to="/" aria-label="Ferretería El Catire, ir al catálogo">
-          <img src="/img/fec.JPG" alt="Logo Ferretería El Catire" className="h-16 w-auto rounded-2xl object-contain shadow-[0_1px_4px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-105" />
+          <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-50 w-auto transition-transform duration-200 hover:scale-105" />
         </Link>
 
         <div className="w-full max-w-[420px]">

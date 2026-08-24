@@ -69,13 +69,9 @@ export default function CatalogPage() {
             <div>
               <h1 className="font-display font-bold text-[clamp(26px,3vw,32px)] text-brand tracking-[-0.01em] leading-[1.15]">Catálogo de productos</h1>
               <p className="text-muted text-sm mt-0.5">
-                Retiro en tienda o entrega en Maracaibo
+                Retiro en tienda fisica
                 {rateLabel && <span> · Tasa de referencia: {rateLabel}</span>}
               </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted hidden sm:block">Sede</span>
-              <SedeSelect value={currentSede.id} onChange={setSede} />
             </div>
           </div>
 

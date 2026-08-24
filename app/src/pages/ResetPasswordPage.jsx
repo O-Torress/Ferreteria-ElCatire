@@ -19,8 +19,8 @@ export default function ResetPasswordPage() {
     e.preventDefault()
     setMsg('')
     setErr('')
-    if (pass.length < 6) {
-      setErr('La contraseña debe tener al menos 6 caracteres.')
+    if (!/(?=.*[a-z])(?=^(?=.*\d).*[A-Z])(?=.*[!@#$%^&*()-+.]).{8,}$/.test(pass)) {
+      setErr('La contraseña debe tener al menos 8 caracteres incluyendo una letra minúscula, una letra mayúscula, un número y un carácter especial.')
       return
     }
     if (pass !== confirm) {
@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
             <form onSubmit={submit} className="flex flex-col gap-4" noValidate>
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="resetPass" className="text-sm font-semibold text-ink">Nueva contraseña</label>
-                <input id="resetPass" type="password" required placeholder="Mínimo 6 caracteres" autoComplete="new-password" value={pass} onChange={(e) => setPass(e.target.value)} className={inputCls} />
+                <input id="resetPass" type="password" required placeholder="Mínimo 8 caracteres" autoComplete="new-password" value={pass} onChange={(e) => setPass(e.target.value)} className={inputCls} />
               </div>
 
               <div className="flex flex-col gap-1.5">
