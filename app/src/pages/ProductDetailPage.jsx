@@ -133,8 +133,9 @@ export default function ProductDetailPage() {
           )}
         </div>
       </main>
-
-      <Footer />
+     <Footer>
+      
+     </Footer>
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   )
