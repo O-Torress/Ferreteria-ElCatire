@@ -30,7 +30,7 @@ export default function AccountPage() {
       nombre: profile?.nombre ?? meta.nombre ?? '',
       apellido: profile?.apellido ?? meta.apellido ?? ''
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profile?.nombre, profile?.apellido])
 
   async function saveProfile(e) {
@@ -64,8 +64,8 @@ export default function AccountPage() {
     e.preventDefault()
     setPassMsg('')
     setPassErr('')
-    if (pass.length < 6) {
-      setPassErr('La contraseña debe tener al menos 6 caracteres.')
+    if (!/(?=.*[a-z])(?=^(?=.*\d).*[A-Z])(?=.*[!@#$%^&*()-+.]).{8,}$/.test(pass)) {
+      setErr('La contraseña debe tener al menos 8 caracteres incluyendo una letra minúscula, una letra mayúscula, un número y un carácter especial.')
       return
     }
     if (pass !== confirm) {
@@ -99,7 +99,9 @@ export default function AccountPage() {
         <div className="max-w-[720px] mx-auto px-5">
           <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
             <div>
-              <h1 className="font-display font-bold text-[clamp(24px,3vw,30px)] text-ink tracking-[-0.01em] leading-[1.15]">Mi cuenta</h1>
+              <h1 className="font-display font-bold text-[clamp(24px,3vw,30px)] text-ink tracking-[-0.01em] leading-[1.15]">
+                Hola {profile ? profile.nombre : user?.email}
+              </h1>
               <p className="text-muted text-sm mt-0.5">Administra tus datos personales y tu sesión.</p>
             </div>
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-brand/10 text-brand border border-brand/35">{rolLabel}</span>
@@ -135,7 +137,7 @@ export default function AccountPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="accPass" className="text-sm font-semibold text-ink">Nueva contraseña</label>
-                <input id="accPass" type="password" autoComplete="new-password" placeholder="Mínimo 6 caracteres" value={pass} onChange={(e) => setPass(e.target.value)} className={inputCls} />
+                <input id="accPass" type="password" autoComplete="new-password" placeholder="Mínimo 8 caracteres" value={pass} onChange={(e) => setPass(e.target.value)} className={inputCls} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="accConfirm" className="text-sm font-semibold text-ink">Confirmar contraseña</label>

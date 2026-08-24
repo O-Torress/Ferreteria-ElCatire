@@ -17,19 +17,12 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-canvas">
-      <header className="bg-ink text-white px-3.5 py-2.5 sticky top-0 z-[60] shadow-[0_2px_10px_rgba(26,37,54,0.18)]">
-        <div className="max-w-[1280px] mx-auto px-3.5 py-2.5 h-16 flex items-center gap-4">
+      <header className="bg-ink text-white sticky top-0 z-[60] shadow-[0_2px_10px_rgba(26,37,54,0.18)]">
+        <div className="max-w-[1280px] mx-auto px-3.5 py-2.5 hdr:px-5 flex flex-wrap items-center gap-4 min-h-16 lg:flex-nowrap">
           <Link to="/" className="flex items-center gap-2.5">
-            <img src="/img/fec.JPG" alt="Logo Ferretería El Catire" className="h-16 w-auto rounded-2xl object-contain shadow-[0_1px_4px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-105" />
-            <span className="font-display font-semibold text-[25px] tracking-[-0.01em]">Panel de administración</span>
+            <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-19 w-auto rounded-2xl transition-transform duration-200 hover:scale-105" />
+            <span className="font-display font-semibold text-[22px] tracking-[-0.01em]">Panel de administración</span>
           </Link>
-          <div className="ml-auto flex items-center gap-3">
-            <span className="hidden sm:block text-lg text-white">
-              {profile ? profile.nombre + ' ' + (profile.apellido || '') : user?.email}
-            </span>
-            <Link to="/" className="text-xs font-medium text-white/80 hover:text-white underline underline-offset-2 transition-colors">Ver catálogo</Link>
-            <button onClick={logout} className="text-xs font-medium text-white/80 hover:text-white underline underline-offset-2 transition-colors">Cerrar sesión</button>
-          </div>
         </div>
       </header>
 

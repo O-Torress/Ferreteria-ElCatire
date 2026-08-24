@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
-import { categoryLabel } from '../../lib/utils'
+import { CATEGORIES, categoryLabel } from '../../lib/utils'
 
 const EMPTY = { nombre: '', codigo: '', categoria: 'herramientas', precio_usd: '', imagen_url: '', marca: '', descripcion: '', stock: '' }
 
@@ -133,10 +133,9 @@ export default function AdminProducts() {
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-ink">Categoría</label>
             <select value={form.categoria} onChange={(e) => setForm((f) => ({ ...f, categoria: e.target.value }))} className={inputCls}>
-              <option value="Herramientas">Herramientas</option>
-              <option value="Pinturas">Pinturas</option>
-              <option value="Electricidad">Electricidad</option>
-              <option value="Plomeria">Plomería</option>
+              {CATEGORIES.map((c) => (
+                <option key={c.id} value={c.id}>{c.label}</option>
+              ))}
             </select>
           </div>
           <div className="flex flex-col gap-1.5">

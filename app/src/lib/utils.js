@@ -1,11 +1,15 @@
 export const CATEGORIES = [
   { id: 'herramientas', label: 'Herramientas' },
-  { id: 'pinturas', label: 'Pinturas' },
+  { id: 'pinturas', label: 'Pinturas y acabados' },
   { id: 'electricidad', label: 'Electricidad' },
-  { id: 'plomeria', label: 'Plomería' }
+  { id: 'plomeria', label: 'Plomería' },
+  { id: 'construccion', label: 'Construcción' },
+  { id: 'cerrajeria', label: 'Cerrajería' },
+  { id: 'iluminacion', label: 'Iluminación' },
+  { id: 'electrodomesticos', label: 'Electrodomésticos' }
 ]
 
-export const WHATSAPP_NUMBER = '584126912280'
+export const WHATSAPP_NUMBER = '584242626309'
 export const DEFAULT_RATE = 36.5
 
 export function normalizeText(s) {

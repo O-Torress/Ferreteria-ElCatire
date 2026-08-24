@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  --breakpoint-xs: 545px;
   --color-brand: #EE6610;
+  --color-branddeep: #C9560E;
   --color-brandhover: #CA570E;
   --color-stock: #FBEF1F;
   --color-action: #008824;
@@ -34,4 +36,12 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 2px;
+}
+
+.search-pill:focus-within {
+  box-shadow: 0 0 0 2px var(--color-brand), 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+.search-pill input:focus-visible,
+.search-pill button:focus-visible {
+  outline: none;
 }

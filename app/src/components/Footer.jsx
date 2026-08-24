@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="flex flex-col gap-1.5">
           <h3 className="font-display font-semibold text-[20px] tracking-[-0.01em]">Contacto</h3>
           <p className="text-base text-white/70">
-            ferreteriacatireca@gmail.com <br /> <br /> +58-414-9622885
+            ferreteriacatireca@gmail.com <br /> <br /> +58-424262630
           </p>
         </div>
         <div className="flex flex-col gap-1.5">
