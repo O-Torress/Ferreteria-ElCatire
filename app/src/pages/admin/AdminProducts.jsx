@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
 import { CATEGORIES, categoryLabel } from '../../lib/utils'
 import Pagination from '../../components/Pagination'
+import CategoriesDrawer from '../../components/CategoriesDrawer'
 
 const EMPTY = { nombre: '', codigo: '', categoria: 'herramientas', precio_usd: '', imagen_url: '', marca: '', descripcion: '', stock: '' }
 const PER_PAGE = 10
@@ -23,6 +24,7 @@ export default function AdminProducts() {
   const [err, setErr] = useState('')
   const [page, setPage] = useState(1)
   const [cat, setCat] = useState('all')
+  const [catsOpen, setCatsOpen] = useState(false)
 
   const counts = {}
   products.forEach((p) => { counts[p.categoria] = (counts[p.categoria] || 0) + 1 })
@@ -139,28 +141,17 @@ export default function AdminProducts() {
         </button>
       </div>
 
-      <div className="flex items-center gap-2 flex-wrap mb-5" role="group" aria-label="Filtrar por categoría">
-        {[{ id: 'all', label: 'Todas' }, ...CATEGORIES].map((c) => {
-          const on = cat === c.id
-          return (
-            <button
-              key={c.id}
-              onClick={() => pickCat(c.id)}
-              aria-pressed={on}
-              className={
-                'inline-flex items-center gap-1.5 h-[42px] px-4 rounded-full border text-sm tracking-[0.02em] transition-colors ' +
-                (on
-                  ? 'border-brand bg-brand text-white font-semibold shadow-[0_2px_8px_rgba(238,102,16,0.35)]'
-                  : 'border-line bg-white text-ink hover:border-brand hover:text-brand')
-              }
-            >
-              {c.label}
-              <span className={'text-xs font-semibold ' + (on ? 'text-white/80' : 'text-muted')}>
-                {c.id === 'all' ? products.length : (counts[c.id] || 0)}
-              </span>
-            </button>
-          )
-        })}
+      <div className="mb-5">
+        <button
+          onClick={() => setCatsOpen(true)}
+          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px]"
+          aria-haspopup="dialog"
+        >
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Ver categorías
+          {cat !== 'all' && <span className="text-brand">· {categoryLabel(cat)}</span>}
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
       </div>
 
       {msg && <p className="text-sm text-action font-medium mb-4">{msg}</p>}
@@ -213,7 +204,7 @@ export default function AdminProducts() {
         </form>
       )}
 
-      <div className="bg-white border border-line rounded-lg overflow-hidden">
+      <div className="bg-white border border-line rounded-lg overflow-x-auto">
         {products.length === 0 ? (
           <div className="text-sm text-muted text-center py-12">
             Aún no hay productos. Crea el primero con el botón «Nuevo producto».
@@ -224,9 +215,9 @@ export default function AdminProducts() {
               <tr className="border-b border-line text-left text-[12.5px] uppercase tracking-[0.06em] text-muted">
                 <th className="px-4 py-3 font-semibold">Código</th>
                 <th className="px-4 py-3 font-semibold">Producto</th>
-                <th className="px-4 py-3 font-semibold hidden sm:table-cell">Categoría</th>
+                <th className="px-4 py-3 font-semibold whitespace-nowrap">Categoría</th>
                 <th className="px-4 py-3 font-semibold">Precio</th>
-                <th className="px-4 py-3 font-semibold hidden md:table-cell">Estado</th>
+                <th className="px-4 py-3 font-semibold whitespace-nowrap">Estado</th>
                 <th className="px-4 py-3 font-semibold text-right">Acciones</th>
               </tr>
             </thead>
@@ -250,9 +241,9 @@ export default function AdminProducts() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-3 hidden sm:table-cell text-muted">{categoryLabel(p.categoria)}</td>
+                  <td className="px-4 py-3 text-muted whitespace-nowrap">{categoryLabel(p.categoria)}</td>
                   <td className="px-4 py-3 font-semibold text-ink">{'$ ' + Number(p.precio_usd).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                  <td className="px-4 py-3 hidden md:table-cell">
+                  <td className="px-4 py-3 whitespace-nowrap">
                     <span className={'text-xs font-semibold px-2.5 py-1 rounded-full ' + (p.activo ? 'bg-action/10 text-action border border-action/30' : 'bg-disabled/20 text-muted border border-line')}>
                       {p.activo ? 'Activo' : 'Oculto'}
                     </span>
@@ -278,6 +269,7 @@ export default function AdminProducts() {
       </div>
 
       <Pagination page={safePage} total={totalPages} onChange={setPage} />
+      <CategoriesDrawer open={catsOpen} onClose={() => setCatsOpen(false)} active={cat} onSelect={pickCat} showAll />
     </div>
   )
 }

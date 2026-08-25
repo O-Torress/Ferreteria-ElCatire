@@ -1,13 +1,21 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 
-export default function Header({ query, onQuery, onOpenCart }) {
+const iconBase = 'relative w-11 h-11 grid place-items-center rounded-lg border transition-colors '
+const iconDefault = 'bg-white/15 border-white/40 text-white hover:bg-brand/20'
+const iconActive = 'bg-brand/25 border-brand/60 text-brand'
+
+export default function Header({ query, onQuery, onOpenCart, hideSearch }) {
   const { count } = useCart()
   const { user, isAdmin } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [mobileSearch, setMobileSearch] = useState(false)
+
+  const onCuenta = location.pathname === '/cuenta'
+  const onAdmin = location.pathname.startsWith('/admin')
 
   return (
     <header className="bg-ink text-white sticky top-0 z-[60] shadow-[0_2px_10px_rgba(26,37,54,0.18)]">
@@ -16,37 +24,41 @@ export default function Header({ query, onQuery, onOpenCart }) {
           <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-19 w-auto transition-transform duration-200 hover:scale-105" />
         </Link>
 
-        <div data-od-id="search-bar" className="search-pill flex-1 hidden xs:flex items-center bg-white rounded-lg overflow-hidden max-w-[520px] mx-auto shadow-[0_1px_3px_rgba(0,0,0,0.18)] order-3 w-full xs:order-none xs:w-auto">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="ml-3.5 self-center text-muted flex-none"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input
-            type="search"
-            placeholder="Busca martillos, pinturas, cables…"
-            aria-label="Buscar productos"
-            value={query || ''}
-            onChange={(e) => onQuery(e.target.value)}
-            className="flex-1 min-w-0 outline-none px-3.5 py-3 text-sm text-ink bg-transparent placeholder:text-muted focus-visible:outline-none"
-          />
-          <button
-            className="bg-brand hover:bg-branddeep text-white px-3.5 py-3 font-semibold text-sm tracking-[0.02em] flex items-center gap-1.5 transition-colors focus-visible:outline-none"
-            onClick={() => { if (query && query.trim()) navigate('/') }}
-          >
-            Buscar
-          </button>
-        </div>
+        {!hideSearch && (
+          <div data-od-id="search-bar" className="search-pill flex-1 hidden xs:flex items-center bg-white rounded-lg overflow-hidden max-w-[520px] mx-auto shadow-[0_1px_3px_rgba(0,0,0,0.18)] order-3 w-full xs:order-none xs:w-auto">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="ml-3.5 self-center text-muted flex-none"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input
+              type="search"
+              placeholder="Busca martillos, pinturas, cables…"
+              aria-label="Buscar productos"
+              value={query || ''}
+              onChange={(e) => onQuery(e.target.value)}
+              className="flex-1 min-w-0 outline-none px-3.5 py-3 text-sm text-ink bg-transparent placeholder:text-muted focus-visible:outline-none"
+            />
+            <button
+              className="bg-brand hover:bg-branddeep text-white px-3.5 py-3 font-semibold text-sm tracking-[0.02em] flex items-center gap-1.5 transition-colors focus-visible:outline-none"
+              onClick={() => { if (query && query.trim()) navigate('/') }}
+            >
+              Buscar
+            </button>
+          </div>
+        )}
 
-        <div className="flex items-center gap-3 order-2 ml-auto lg:ml-0 lg:order-none">
-          <button
-            data-od-id="mobile-search-button"
-            onClick={() => setMobileSearch(true)}
-            className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-white/30 transition-colors xs:hidden"
-            aria-label="Buscar productos"
-          >
-            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          </button>
+        <div className={'flex items-center gap-3 order-2 ml-auto' + (hideSearch ? '' : ' lg:ml-0 lg:order-none')}>
+          {!hideSearch && (
+            <button
+              data-od-id="mobile-search-button"
+              onClick={() => setMobileSearch(true)}
+              className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors xs:hidden"
+              aria-label="Buscar productos"
+            >
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </button>
+          )}
 
           <button
             onClick={onOpenCart}
-            className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-white/30 transition-colors"
+            className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors"
             aria-label="Abrir carrito de compras"
           >
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h2.2l2 12.2a1.6 1.6 0 0 0 1.6 1.3h8.7a1.6 1.6 0 0 0 1.6-1.3L20.5 8H5.2"/></svg>
@@ -60,7 +72,7 @@ export default function Header({ query, onQuery, onOpenCart }) {
           {user ? (
             <button
               onClick={() => navigate('/cuenta')}
-              className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-white/30 transition-colors"
+              className={iconBase + (onCuenta ? iconActive : iconDefault)}
               aria-label="Mi cuenta: editar datos y cerrar sesión"
               title={user.email}
             >
@@ -69,7 +81,7 @@ export default function Header({ query, onQuery, onOpenCart }) {
           ) : (
             <Link
               to="/login"
-              className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-white/30 transition-colors"
+              className={iconBase + iconDefault}
               aria-label="Iniciar sesión o registrarse"
             >
               <img src="/img/person.svg" alt="Persona" width="21" height="21" />
@@ -79,7 +91,7 @@ export default function Header({ query, onQuery, onOpenCart }) {
           {user && isAdmin && (
             <button
               onClick={() => navigate('/admin/productos')}
-              className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-white/30 transition-colors"
+              className={iconBase + (onAdmin ? iconActive : iconDefault)}
               aria-label="Panel de administración"
               title="Panel de administración"
             >
@@ -89,7 +101,7 @@ export default function Header({ query, onQuery, onOpenCart }) {
         </div>
       </div>
 
-      {mobileSearch && (
+      {!hideSearch && mobileSearch && (
         <div data-od-id="mobile-search-bar" className="fixed inset-x-0 top-0 z-[70] bg-ink px-3 py-2.5 flex items-center gap-2 xs:hidden shadow-[0_2px_10px_rgba(26,37,54,0.25)]">
           <button
             onClick={() => setMobileSearch(false)}

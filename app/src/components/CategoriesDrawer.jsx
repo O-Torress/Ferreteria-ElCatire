@@ -1,13 +1,13 @@
 import { CATEGORIES, categoryLabel } from '../lib/utils'
 import { useProducts } from '../context/ProductsContext'
 
-export default function CategoriesDrawer({ open, onClose, active, onSelect }) {
+export default function CategoriesDrawer({ open, onClose, active, onSelect, showAll }) {
   const { products } = useProducts()
   const items = [{ id: 'all', label: 'Todas las categorías' }, ...CATEGORIES]
 
   const counts = {}
   products.forEach((p) => {
-    if (!p.activo) return
+    if (!showAll && !p.activo) return
     counts[p.categoria] = (counts[p.categoria] || 0) + 1
   })
 
@@ -54,7 +54,7 @@ export default function CategoriesDrawer({ open, onClose, active, onSelect }) {
                 <span className={'inline-block w-2 h-2 rounded-full flex-none ' + (on ? 'bg-white' : 'bg-brand/60')}></span>
                 <span className="flex-1">{c.id === 'all' ? c.label : categoryLabel(c.id)}</span>
                 <span className={'text-xs font-semibold px-2 py-0.5 rounded-full ' + (on ? 'bg-white/20' : 'bg-canvas text-muted border border-line')}>
-                  {n}
+                  {c.id === 'all' ? products.filter((p) => showAll || p.activo).length : n}
                 </span>
               </button>
             )

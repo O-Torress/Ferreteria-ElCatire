@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
-import { CATEGORIES } from '../../lib/utils'
+import { CATEGORIES, categoryLabel } from '../../lib/utils'
 import Pagination from '../../components/Pagination'
+import CategoriesDrawer from '../../components/CategoriesDrawer'
 
 const PER_PAGE = 10
 
@@ -18,6 +19,7 @@ export default function AdminStock() {
   const [err, setErr] = useState('')
   const [page, setPage] = useState(1)
   const [cat, setCat] = useState('all')
+  const [catsOpen, setCatsOpen] = useState(false)
 
   const counts = {}
   products.forEach((p) => { counts[p.categoria] = (counts[p.categoria] || 0) + 1 })
@@ -71,28 +73,17 @@ export default function AdminStock() {
         </button>
       </div>
 
-      <div className="flex items-center gap-2 flex-wrap mb-5" role="group" aria-label="Filtrar por categoría">
-        {[{ id: 'all', label: 'Todas' }, ...CATEGORIES].map((c) => {
-          const on = cat === c.id
-          return (
-            <button
-              key={c.id}
-              onClick={() => pickCat(c.id)}
-              aria-pressed={on}
-              className={
-                'inline-flex items-center gap-1.5 h-[42px] px-4 rounded-full border text-sm tracking-[0.02em] transition-colors ' +
-                (on
-                  ? 'border-brand bg-brand text-white font-semibold shadow-[0_2px_8px_rgba(238,102,16,0.35)]'
-                  : 'border-line bg-white text-ink hover:border-brand hover:text-brand')
-              }
-            >
-              {c.label}
-              <span className={'text-xs font-semibold ' + (on ? 'text-white/80' : 'text-muted')}>
-                {c.id === 'all' ? products.length : (counts[c.id] || 0)}
-              </span>
-            </button>
-          )
-        })}
+      <div className="mb-5">
+        <button
+          onClick={() => setCatsOpen(true)}
+          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px]"
+          aria-haspopup="dialog"
+        >
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Ver categorías
+          {cat !== 'all' && <span className="text-brand">· {categoryLabel(cat)}</span>}
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
       </div>
 
       {msg && <p className="text-sm text-action font-medium mb-4">{msg}</p>}
@@ -137,6 +128,7 @@ export default function AdminStock() {
       </div>
 
       <Pagination page={safePage} total={totalPages} onChange={setPage} />
+      <CategoriesDrawer open={catsOpen} onClose={() => setCatsOpen(false)} active={cat} onSelect={pickCat} showAll />
     </div>
   )
 }

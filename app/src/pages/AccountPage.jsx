@@ -97,7 +97,7 @@ export default function AccountPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-canvas">
-      <Header query="" onQuery={() => {}} onOpenCart={() => setCartOpen(true)} />
+      <Header query="" onQuery={() => {}} onOpenCart={() => setCartOpen(true)} hideSearch />
 
       <main className="flex-1 py-8">
         <div className="max-w-[720px] mx-auto px-5">
