@@ -48,7 +48,7 @@ export default function ProductDetailPage() {
 
       <main className="flex-1 py-6 pb-16">
         <div className="max-w-[1080px] mx-auto px-5">
-          <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-brand transition-colors min-h-[42px]">
+          <Link to="/catalogo" className="inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-brand transition-colors min-h-[42px]">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
             Volver al catálogo
           </Link>
@@ -69,7 +69,7 @@ export default function ProductDetailPage() {
             <div className="text-center py-20">
               <p className="font-display font-semibold text-[19px] text-ink">Producto no encontrado</p>
               <p className="text-muted text-sm mt-1 mb-5">Puede que haya sido eliminado o que el enlace sea incorrecto.</p>
-              <Link to="/" className="inline-flex items-center justify-center bg-brand hover:bg-brandhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors">
+                <Link to="/catalogo" className="inline-flex items-center justify-center bg-brand hover:bg-brandhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors">
                 Ir al catálogo
               </Link>
             </div>

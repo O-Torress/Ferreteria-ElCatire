@@ -37,7 +37,7 @@ export default function Header({ query, onQuery, onOpenCart, hideSearch }) {
             />
             <button
               className="bg-brand hover:bg-branddeep text-white px-3.5 py-3 font-semibold text-sm tracking-[0.02em] flex items-center gap-1.5 transition-colors focus-visible:outline-none"
-              onClick={() => { if (query && query.trim()) navigate('/') }}
+              onClick={() => { if (query && query.trim()) navigate('/catalogo') }}
             >
               Buscar
             </button>
@@ -113,7 +113,7 @@ export default function Header({ query, onQuery, onOpenCart, hideSearch }) {
           <form
             onSubmit={(e) => {
               e.preventDefault()
-              if (query && query.trim()) navigate('/')
+              if (query && query.trim()) navigate('/catalogo')
               setMobileSearch(false)
             }}
             className="search-pill flex-1 min-w-0 flex items-center bg-white rounded-lg overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.18)]"

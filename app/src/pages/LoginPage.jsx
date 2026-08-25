@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
-import Slider from '../components/Slider'
 import Toast from '../components/Toast'
 
 const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-3 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20'
@@ -76,112 +75,108 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-      <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16 items-center lg:items-start">
-        <Link className="flex items-center self-center lg:self-start mb-8" to="/" aria-label="Ferretería El Catire, ir al catálogo">
-          <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-45 w-auto transition-transform duration-200 hover:scale-105" />
-        </Link>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-10 bg-canvas">
+      <Link className="flex items-center mb-8" to="/" aria-label="Ferretería El Catire, ir al catálogo">
+        <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-45 w-auto transition-transform duration-200 hover:scale-105" />
+      </Link>
 
-        <div className="w-full max-w-[420px]">
-          <h1 className="font-display font-bold text-[26px] text-ink tracking-[-0.01em]">{mode === 'login' ? 'Iniciar sesión' : 'Recuperar contraseña'}</h1>
-          <p className="text-muted text-sm mt-1 mb-7">
-            {mode === 'login' ? 'Accede para continuar con tu pedido.' : 'Te enviaremos un enlace para crear una nueva contraseña.'}
-          </p>
+      <div className="w-full max-w-[420px]">
+        <h1 className="font-display font-bold text-[26px] text-ink tracking-[-0.01em]">{mode === 'login' ? 'Iniciar sesión' : 'Recuperar contraseña'}</h1>
+        <p className="text-muted text-sm mt-1 mb-7">
+          {mode === 'login' ? 'Accede para continuar con tu pedido.' : 'Te enviaremos un enlace para crear una nueva contraseña.'}
+        </p>
 
-          {mode === 'login' ? (
-            <form onSubmit={submit} className="flex flex-col gap-4" noValidate>
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="loginEmail" className="text-sm font-semibold text-ink">Correo</label>
-                <input
-                  id="loginEmail"
-                  type="email"
-                  required
-                  placeholder="tu@correo.com"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={inputCls}
-                />
-              </div>
+        {mode === 'login' ? (
+          <form onSubmit={submit} className="flex flex-col gap-4" noValidate>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="loginEmail" className="text-sm font-semibold text-ink">Correo</label>
+              <input
+                id="loginEmail"
+                type="email"
+                required
+                placeholder="tu@correo.com"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={inputCls}
+              />
+            </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="loginPassword" className="text-sm font-semibold text-ink">Contraseña</label>
-                <input
-                  id="loginPassword"
-                  type="password"
-                  required
-                  placeholder="Tu contraseña"
-                  autoComplete="current-password"
-                  value={pass}
-                  onChange={(e) => setPass(e.target.value)}
-                  className={inputCls}
-                />
-                <button
-                  type="button"
-                  onClick={() => switchMode('recover')}
-                  className="self-end text-[13px] font-medium text-muted hover:text-brand transition-colors"
-                >
-                  ¿Olvidaste tu contraseña?
-                </button>
-              </div>
-
-              {err && <p className="text-sm text-[#b91c1c] font-medium">{err}</p>}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="mt-1 flex items-center justify-center gap-2 bg-brand hover:bg-brandhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors shadow-[0_2px_8px_rgba(238,102,16,0.3)] disabled:opacity-60"
-              >
-                {loading ? 'Entrando…' : 'Iniciar Sesión'}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={submitRecover} className="flex flex-col gap-4" noValidate>
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="recoverEmail" className="text-sm font-semibold text-ink">Correo</label>
-                <input
-                  id="recoverEmail"
-                  type="email"
-                  required
-                  placeholder="tu@correo.com"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={inputCls}
-                />
-              </div>
-
-              {msg && <p className="text-sm text-action font-medium">{msg}</p>}
-              {err && <p className="text-sm text-[#b91c1c] font-medium">{err}</p>}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="mt-1 flex items-center justify-center gap-2 bg-brand hover:bg-brandhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors shadow-[0_2px_8px_rgba(238,102,16,0.3)] disabled:opacity-60"
-              >
-                {loading ? 'Enviando…' : 'Enviar enlace'}
-              </button>
-
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="loginPassword" className="text-sm font-semibold text-ink">Contraseña</label>
+              <input
+                id="loginPassword"
+                type="password"
+                required
+                placeholder="Tu contraseña"
+                autoComplete="current-password"
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+                className={inputCls}
+              />
               <button
                 type="button"
-                onClick={() => switchMode('login')}
-                className="text-sm font-medium text-muted hover:text-brand transition-colors"
+                onClick={() => switchMode('recover')}
+                className="self-end text-[13px] font-medium text-muted hover:text-brand transition-colors"
               >
-                Volver a iniciar sesión
+                ¿Olvidaste tu contraseña?
               </button>
-            </form>
-          )}
+            </div>
 
-          {mode === 'login' && (
-            <p className="text-center text-sm text-muted mt-5">
-              ¿No tienes cuenta?
-              <Link to="/register" className="font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors"> Regístrate</Link>
-            </p>
-          )}
-        </div>
-      </section>
+            {err && <p className="text-sm text-[#b91c1c] font-medium">{err}</p>}
 
-      <div className="hidden lg:block"><Slider /></div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-1 flex items-center justify-center gap-2 bg-brand hover:bg-brandhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors shadow-[0_2px_8px_rgba(238,102,16,0.3)] disabled:opacity-60"
+            >
+              {loading ? 'Entrando…' : 'Iniciar Sesión'}
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={submitRecover} className="flex flex-col gap-4" noValidate>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="recoverEmail" className="text-sm font-semibold text-ink">Correo</label>
+              <input
+                id="recoverEmail"
+                type="email"
+                required
+                placeholder="tu@correo.com"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={inputCls}
+              />
+            </div>
+
+            {msg && <p className="text-sm text-action font-medium">{msg}</p>}
+            {err && <p className="text-sm text-[#b91c1c] font-medium">{err}</p>}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-1 flex items-center justify-center gap-2 bg-brand hover:bg-brandhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors shadow-[0_2px_8px_rgba(238,102,16,0.3)] disabled:opacity-60"
+            >
+              {loading ? 'Enviando…' : 'Enviar enlace'}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => switchMode('login')}
+              className="text-sm font-medium text-muted hover:text-brand transition-colors"
+            >
+              Volver a iniciar sesión
+            </button>
+          </form>
+        )}
+
+        {mode === 'login' && (
+          <p className="text-center text-sm text-muted mt-5">
+            ¿No tienes cuenta?
+            <Link to="/register" className="font-semibold text-brand hover:text-brandhover underline underline-offset-2 transition-colors"> Regístrate</Link>
+          </p>
+        )}
+      </div>
       <Toast message={err || msg} />
     </div>
   )
