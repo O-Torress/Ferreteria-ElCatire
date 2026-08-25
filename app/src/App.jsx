@@ -1,4 +1,5 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import LandingPage from './pages/LandingPage'
 import CatalogPage from './pages/CatalogPage'
 import LoginPage from './pages/LoginPage'
@@ -10,6 +11,12 @@ import AdminLayout from './pages/admin/AdminLayout'
 import AdminProducts from './pages/admin/AdminProducts'
 import AdminStock from './pages/admin/AdminStock'
 import { useAuth } from './context/AuthContext'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
 
 function AuthGuard({ children }) {
   const { user, loading } = useAuth()
@@ -32,6 +39,8 @@ function AdminGuard({ children }) {
 
 export default function App() {
   return (
+    <>
+    <ScrollToTop />
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/catalogo" element={<CatalogPage />} />
@@ -61,5 +70,6 @@ export default function App() {
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </>
   )
 }
