@@ -41,8 +41,14 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="max-w-[1280px] mx-auto px-5 py-4 text-xs text-white/50">&nbsp;
+        <div className="max-w-[1280px] mx-auto px-5 py-4 text-xs text-white/50 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Ferreteria el catire C.A. Todos los derechos reservados.</p>
+          <div className="flex items-center gap-2 sm:text-right">
+            <p>Desarrollado por Oscar Torres</p>
+            <a href="https://github.com/O-Torress">
+              <img src="/img/gh.svg" alt="gh logo" width="20" height="20" className="transition-transform duration-200 hover:scale-105"/>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

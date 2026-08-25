@@ -116,12 +116,6 @@ export default function LandingPage() {
               >
                 Ver Catálogo Completo
               </Link>
-              <a
-                href="#sede"
-                className="inline-flex items-center justify-center border-2 border-white/50 text-white hover:bg-white/10 font-semibold text-[15px] tracking-[0.02em] py-3 px-6 rounded-lg min-h-[50px] transition-colors"
-              >
-                Ubicación de Sede
-              </a>
             </div>
           </div>
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">

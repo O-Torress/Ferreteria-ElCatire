@@ -8,7 +8,7 @@ const iconDefault = 'bg-white/15 border-white/40 text-white hover:bg-brand/20'
 const iconActive = 'bg-brand/25 border-brand/60 text-brand'
 
 const navLink = ({ isActive }) =>
-  'text-sm font-medium transition-colors ' + (isActive ? 'text-brand' : 'text-white/80 hover:text-white')
+  'text-[15px] font-medium transition-colors hover:text-brand ' + (isActive ? 'text-brand' : 'text-white/80')
 
 export default function LandingHeader({ onOpenCart }) {
   const { count } = useCart()
@@ -88,10 +88,10 @@ export default function LandingHeader({ onOpenCart }) {
       {mobileNav && (
         <div className="lg:hidden border-t border-white/10 bg-ink">
           <nav className="max-w-[1280px] mx-auto px-5 py-4 flex flex-col gap-3">
-            <a href="#hero" onClick={() => setMobileNav(false)} className="text-sm font-medium text-white/80 hover:text-white py-2 transition-colors">Inicio</a>
-            <Link to="/catalogo" onClick={() => setMobileNav(false)} className="text-sm font-medium text-white/80 hover:text-white py-2 transition-colors">Catálogo</Link>
-            <a href="#sede" onClick={() => setMobileNav(false)} className="text-sm font-medium text-white/80 hover:text-white py-2 transition-colors">Sedes</a>
-            <a href="#contacto" onClick={() => setMobileNav(false)} className="text-sm font-medium text-white/80 hover:text-white py-2 transition-colors">Contacto</a>
+            <a href="#hero" onClick={() => setMobileNav(false)} className="text-[15px] font-medium text-white/80 hover:text-brand py-2 transition-colors">Inicio</a>
+            <Link to="/catalogo" onClick={() => setMobileNav(false)} className="text-[15px] font-medium text-white/80 hover:text-brand py-2 transition-colors">Catálogo</Link>
+            <a href="#sede" onClick={() => setMobileNav(false)} className="text-[15px] font-medium text-white/80 hover:text-brand py-2 transition-colors">Sedes</a>
+            <a href="#contacto" onClick={() => setMobileNav(false)} className="text-[15px] font-medium text-white/80 hover:text-brand py-2 transition-colors">Contacto</a>
             <div className="flex items-center gap-3 pt-2 border-t border-white/10">
               <button onClick={() => { onOpenCart(); setMobileNav(false) }} className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors" aria-label="Carrito">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h2.2l2 12.2a1.6 1.6 0 0 0 1.6 1.3h8.7a1.6 1.6 0 0 0 1.6-1.3L20.5 8H5.2"/></svg>
