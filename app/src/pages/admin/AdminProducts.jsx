@@ -81,12 +81,17 @@ export default function AdminProducts() {
       setErr('Completa nombre, un código numérico válido y un precio válido.')
       return
     }
+    const imgTrimmed = form.imagen_url.trim()
+    if (imgTrimmed && !imgTrimmed.startsWith('https://')) {
+      setErr('La URL de la imagen debe comenzar con https://')
+      return
+    }
     const payload = {
       nombre: form.nombre.trim(),
       codigo,
       categoria: form.categoria,
       precio_detal: precio,
-      img_url: form.imagen_url.trim() || null,
+      img_url: imgTrimmed || null,
       marca: form.marca.trim() || null,
       descripcion: form.descripcion.trim() || null,
       stock: Math.max(0, Math.round(Number(form.stock) || 0))

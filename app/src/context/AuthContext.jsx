@@ -53,6 +53,7 @@ export function AuthProvider({ children }) {
           apellido: meta.apellido || '',
           rol_user: 'cliente'
         })
+        .select()
         .maybeSingle()
       setProfile(created ?? null)
     })
