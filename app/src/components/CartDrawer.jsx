@@ -1,22 +1,48 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
+import { supabase } from '../lib/supabase'
 import { fmtUSD, fmtBs, WHATSAPP_NUMBER } from '../lib/utils'
 
 export default function CartDrawer({ open, onClose }) {
-  const { byId } = useProducts()
+  const { byId, reload } = useProducts()
   const { items, rate, totalUsd, count, add, dec, remove, clear } = useCart()
   const { user } = useAuth()
   const navigate = useNavigate()
+  const [confirming, setConfirming] = useState(false)
+  const [error, setError] = useState('')
 
-  function handleConfirm() {
+  async function handleConfirm() {
     if (!user) {
       onClose()
       navigate('/register')
       return
     }
+    setConfirming(true)
+    setError('')
+    const failed = []
+    for (const id of ids) {
+      const p = byId[id]
+      const qty = items[id]
+      const { error: err, count } = await supabase
+        .from('Productos')
+        .update({ stock: p.stock - qty }, { count: 'exact' })
+        .eq('codigo', Number(id))
+        .gte('stock', qty)
+      if (err || count === 0) {
+        failed.push(p.nombre)
+      }
+    }
+    setConfirming(false)
+    if (failed.length > 0) {
+      setError('No hay stock suficiente para: ' + failed.join(', '))
+      return
+    }
     window.open(waHref, '_blank', 'noopener')
+    clear()
+    reload()
   }
 
   const ids = Object.keys(items).filter((id) => byId[id] && byId[id].activo)
@@ -102,10 +128,17 @@ export default function CartDrawer({ open, onClose }) {
                 <div className="flex justify-between items-baseline text-sm"><span className="text-muted">Subtotal (Bs)</span><b className="font-display text-[17px] font-bold tracking-[-0.01em]">{fmtBs(totalUsd * rate)}</b></div>
                 <div className="flex justify-between items-baseline text-sm border-t border-dashed border-line pt-2 mt-0.5"><span className="text-muted">Artículos</span><b className="font-display text-[19px] font-bold tracking-[-0.01em]">{count}</b></div>
               </div>
-              <button onClick={handleConfirm} className="flex items-center justify-center gap-2 bg-action hover:bg-actionhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors">
-                <img src="/img/ws.svg" alt="WhatsApp" width="30" height="30" />
-                {user ? 'Confirmar pedido por WhatsApp' : 'Regístrate para confirmar tu pedido'}
+              <button onClick={handleConfirm} disabled={confirming} className="flex items-center justify-center gap-2 bg-action hover:bg-actionhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+                {confirming ? (
+                  'Procesando…'
+                ) : (
+                  <>
+                    <img src="/img/ws.svg" alt="WhatsApp" width="30" height="30" />
+                    {user ? 'Confirmar pedido por WhatsApp' : 'Regístrate para confirmar tu pedido'}
+                  </>
+                )}
               </button>
+              {error && <p className="text-sm text-[#b91c1c] font-medium text-center">{error}</p>}
               <p className="text-xs text-muted text-center">{user ? 'El enlace abre WhatsApp con el resumen del pedido.' : 'Necesitas una cuenta para completar tu pedido.'}</p>
             </footer>
           </>
