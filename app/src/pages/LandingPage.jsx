@@ -91,14 +91,14 @@ export default function LandingPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section id="hero" className="relative h-[420px] sm:h-[480px] lg:h-[560px] overflow-hidden">
+        <section id="hero" className="relative h-[500px] sm:h-[560px] lg:h-[680px] overflow-hidden">
           {HERO_DATA.map((h, i) => (
             <div
               key={i}
               className="absolute inset-0 transition-opacity duration-[1200ms]"
               style={{ opacity: i === heroIdx ? 1 : 0 }}
             >
-              <img src={h.img} alt="" className="w-full h-full object-cover" />
+              <img src={h.img} alt="" className="w-full h-full object-cover" style={{ imageRendering: 'auto' }} loading="eager" />
             </div>
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-inkdeep/90 via-inkdeep/50 to-inkdeep/20" />
