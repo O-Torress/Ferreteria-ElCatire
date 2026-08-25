@@ -1,12 +1,20 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
+import Pagination from '../../components/Pagination'
+
+const PER_PAGE = 10
 
 export default function AdminStock() {
   const { products, reload } = useProducts()
   const [drafts, setDrafts] = useState({})
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
+  const [page, setPage] = useState(1)
+
+  const totalPages = Math.ceil(products.length / PER_PAGE)
+  const safePage = Math.min(page, totalPages || 1)
+  const paged = products.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE)
 
   function valueFor(id) {
     const p = products.find((x) => x.id === id)
@@ -64,7 +72,7 @@ export default function AdminStock() {
               </tr>
             </thead>
             <tbody>
-              {products.map((p) => (
+              {paged.map((p) => (
                 <tr key={p.id} className="border-b border-line last:border-0">
                   <td className="px-4 py-3">
                     <p className="font-semibold text-ink leading-snug">{p.nombre}</p>
@@ -85,6 +93,8 @@ export default function AdminStock() {
           </table>
         )}
       </div>
+
+      <Pagination page={safePage} total={totalPages} onChange={setPage} />
     </div>
   )
 }

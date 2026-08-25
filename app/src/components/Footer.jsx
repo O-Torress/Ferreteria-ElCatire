@@ -19,13 +19,13 @@ export default function Footer() {
         <div className="flex flex-col gap-1.5">
           <h3 className="font-display font-semibold text-[20px] tracking-[-0.01em]">Contacto</h3>
           <p className="text-base text-white/70">
-            ferreteriacatireca@gmail.com <br /> <br /> +58-424262630
+            ferreteriacatireca@gmail.com <br /> <br /> +58-424262630 
           </p>
         </div>
         <div className="flex flex-col gap-1.5">
           <h3 className="font-display font-semibold text-[20px] tracking-[-0.01em]">Horarios</h3>
           <p className="text-sm text-white/70">
-            DE LUNES A VIERNES <br /> 8:00AM A 8:00PM <br /> <br /> SABADOS Y DOMINGOS <br /> 8:00AM A 1:00PM
+            DE LUNES A VIERNES <br /> 8:00AM A 8:00PM <br /> <br /> SABADOS Y DOMINGOS <br /> 8:00AM A 2:00PM
           </p>
         </div>
         <div className="flex flex-col gap-1.5">

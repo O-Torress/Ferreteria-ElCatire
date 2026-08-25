@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
 import { CATEGORIES, categoryLabel } from '../../lib/utils'
+import Pagination from '../../components/Pagination'
 
 const EMPTY = { nombre: '', codigo: '', categoria: 'herramientas', precio_usd: '', imagen_url: '', marca: '', descripcion: '', stock: '' }
+const PER_PAGE = 10
 
 const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20'
 
@@ -14,6 +16,11 @@ export default function AdminProducts() {
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
+  const [page, setPage] = useState(1)
+
+  const totalPages = Math.ceil(products.length / PER_PAGE)
+  const safePage = Math.min(page, totalPages || 1)
+  const paged = products.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE)
 
   const isNew = editing === 'new'
 
@@ -93,10 +100,10 @@ export default function AdminProducts() {
   }
 
   async function remove(p) {
-    if (!confirm('¿Eliminar el producto "' + p.nombre + '"? Esta acción no se puede deshacer.')) return
-    const { error } = await supabase.from('Productos').delete().eq('codigo', p.id)
+    if (!confirm('¿Eliminar el producto "' + p.nombre + '" del catálogo? Se ocultará de la tienda y podrás publicarlo de nuevo desde aquí.')) return
+    const { error } = await supabase.from('Productos').update({ deleted: true }).eq('codigo', p.id)
     if (!error) {
-      setMsg('Producto eliminado.')
+      setMsg('Producto eliminado del catálogo.')
       reload()
     }
   }
@@ -184,7 +191,7 @@ export default function AdminProducts() {
               </tr>
             </thead>
             <tbody>
-              {products.map((p) => (
+              {paged.map((p) => (
                 <tr key={p.id} className="border-b border-line last:border-0">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
@@ -211,11 +218,15 @@ export default function AdminProducts() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1.5">
-                      <button onClick={() => toggleActive(p)} className="text-xs font-medium text-muted hover:text-ink px-2 py-1.5 rounded-md hover:bg-canvas transition-colors">
-                        {p.activo ? 'Ocultar' : 'Publicar'}
-                      </button>
+                      {!p.activo && (
+                        <button onClick={() => toggleActive(p)} className="text-xs font-medium text-action hover:bg-canvas px-2 py-1.5 rounded-md transition-colors">
+                          Publicar
+                        </button>
+                      )}
                       <button onClick={() => startEdit(p)} className="text-xs font-medium text-muted hover:text-ink px-2 py-1.5 rounded-md hover:bg-canvas transition-colors">Editar</button>
-                      <button onClick={() => remove(p)} className="text-xs font-medium text-[#b91c1c] hover:bg-[#fdeeee] px-2 py-1.5 rounded-md transition-colors">Eliminar</button>
+                      {p.activo && (
+                        <button onClick={() => remove(p)} className="text-xs font-medium text-[#b91c1c] hover:bg-[#fdeeee] px-2 py-1.5 rounded-md transition-colors">Eliminar</button>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -224,6 +235,8 @@ export default function AdminProducts() {
           </table>
         )}
       </div>
+
+      <Pagination page={safePage} total={totalPages} onChange={setPage} />
     </div>
   )
 }
