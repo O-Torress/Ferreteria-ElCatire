@@ -1,10 +1,23 @@
+import { useNavigate } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import { fmtUSD, fmtBs, WHATSAPP_NUMBER } from '../lib/utils'
 
 export default function CartDrawer({ open, onClose }) {
   const { byId } = useProducts()
   const { items, rate, totalUsd, count, add, dec, remove, clear } = useCart()
+  const { user } = useAuth()
+  const navigate = useNavigate()
+
+  function handleConfirm() {
+    if (!user) {
+      onClose()
+      navigate('/register')
+      return
+    }
+    window.open(waHref, '_blank', 'noopener')
+  }
 
   const ids = Object.keys(items).filter((id) => byId[id] && byId[id].activo)
 
@@ -89,11 +102,11 @@ export default function CartDrawer({ open, onClose }) {
                 <div className="flex justify-between items-baseline text-sm"><span className="text-muted">Subtotal (Bs)</span><b className="font-display text-[17px] font-bold tracking-[-0.01em]">{fmtBs(totalUsd * rate)}</b></div>
                 <div className="flex justify-between items-baseline text-sm border-t border-dashed border-line pt-2 mt-0.5"><span className="text-muted">Artículos</span><b className="font-display text-[19px] font-bold tracking-[-0.01em]">{count}</b></div>
               </div>
-              <a className="flex items-center justify-center gap-2 bg-action hover:bg-actionhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors" href={waHref} target="_blank" rel="noopener">
-                <img src="/img/ws.svg" alt="Persona" width="30" height="30" />
-                Confirmar pedido por WhatsApp
-              </a>
-              <p className="text-xs text-muted text-center">El enlace abre WhatsApp con el resumen del peedido.</p>
+              <button onClick={handleConfirm} className="flex items-center justify-center gap-2 bg-action hover:bg-actionhover text-white font-semibold text-[15px] tracking-[0.02em] py-3.5 px-4 rounded-lg min-h-[50px] transition-colors">
+                <img src="/img/ws.svg" alt="WhatsApp" width="30" height="30" />
+                {user ? 'Confirmar pedido por WhatsApp' : 'Regístrate para confirmar tu pedido'}
+              </button>
+              <p className="text-xs text-muted text-center">{user ? 'El enlace abre WhatsApp con el resumen del pedido.' : 'Necesitas una cuenta para completar tu pedido.'}</p>
             </footer>
           </>
         )}
