@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
 import { CATEGORIES } from '../../lib/utils'
@@ -8,6 +8,11 @@ const PER_PAGE = 10
 
 export default function AdminStock() {
   const { products, reload } = useProducts()
+
+  useEffect(() => {
+    document.title = 'Admin: Stock – Ferretería El Catire'
+  }, [])
+
   const [drafts, setDrafts] = useState({})
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')

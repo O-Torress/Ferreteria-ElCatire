@@ -1,20 +1,22 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import CategoriesDrawer from '../components/CategoriesDrawer'
 import ProductCard from '../components/ProductCard'
 import CartDrawer from '../components/CartDrawer'
-import SedeSelect from '../components/SedeSelect'
 import Pagination from '../components/Pagination'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
-import { useSede } from '../context/SedeContext'
 import { normalizeText, categoryLabel } from '../lib/utils'
 
 export default function CatalogPage() {
-  const { products, sedes, loading, error } = useProducts()
+  const { products, loading, error } = useProducts()
+
+  useEffect(() => {
+    document.title = 'Catálogo – Ferretería El Catire'
+  }, [])
+
   const { rate, rateLabel } = useCart()
-  const { sede, setSede } = useSede()
 
   const [cat, setCat] = useState('all')
   const [query, setQuery] = useState('')
@@ -23,8 +25,6 @@ export default function CatalogPage() {
   const [catsOpen, setCatsOpen] = useState(false)
 
   const PER_PAGE = 9
-
-  const currentSede = sedes.find((s) => s.id === sede) || sedes[0] || { id: 'Sede Norte', nombre: 'Sede Norte' }
 
   const onQuery = (v) => {
     setQuery(v)

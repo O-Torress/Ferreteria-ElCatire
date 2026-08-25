@@ -1,18 +1,15 @@
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
-import { useSede } from '../context/SedeContext'
 import { fmtUSD, fmtBs, WHATSAPP_NUMBER } from '../lib/utils'
 
 export default function CartDrawer({ open, onClose }) {
-  const { byId, sedes } = useProducts()
+  const { byId } = useProducts()
   const { items, rate, totalUsd, count, add, dec, remove, clear } = useCart()
-  const { sede } = useSede()
 
-  const sedeName = (sedes.find((s) => s.id === sede) || {}).nombre || sede
-  const ids = Object.keys(items).filter((id) => byId[id])
+  const ids = Object.keys(items).filter((id) => byId[id] && byId[id].activo)
 
   const waText = [
-    'Hola Ferretería El Catire, quiero confirmar mi pedido para ' + sedeName + ':',
+    'Hola Ferretería El Catire, quiero confirmar mi pedido:',
     ...ids.map((id) => {
       const p = byId[id]
       const q = items[id]
@@ -72,7 +69,7 @@ export default function CartDrawer({ open, onClose }) {
                         <div className="flex items-center border border-line rounded-lg overflow-hidden">
                           <button onClick={() => dec(id)} className="w-7 h-8 grid place-items-center text-ink font-semibold hover:bg-canvas transition-colors" aria-label="Reducir cantidad">−</button>
                           <span className="min-w-[32px] text-center text-sm font-semibold">{q}</span>
-                          <button onClick={() => add(id)} className="w-7 h-8 grid place-items-center text-ink font-semibold hover:bg-canvas transition-colors" aria-label="Aumentar cantidad">+</button>
+                          <button onClick={() => add(id, 1, p.stock)} className="w-7 h-8 grid place-items-center text-ink font-semibold hover:bg-canvas transition-colors" aria-label="Aumentar cantidad">+</button>
                         </div>
                         <span className="font-display font-semibold text-sm tracking-[-0.01em]">{fmtUSD(p.precio_usd * q)}</span>
                       </div>

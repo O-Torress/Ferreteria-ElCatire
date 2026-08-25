@@ -52,7 +52,7 @@ export function ProductsProvider({ children }) {
   }, [products])
 
   return (
-    <ProductsContext.Provider value={{ products, sedes: [], byId, loading, error, reload: load }}>
+    <ProductsContext.Provider value={{ products, byId, loading, error, reload: load }}>
       {children}
     </ProductsContext.Provider>
   )

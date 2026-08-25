@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import Slider from '../components/Slider'
@@ -10,6 +10,11 @@ const NAME_RE = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+$/
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ nombre: '', apellido: '', email: '', pass: '', confirm: '' })
+
+  useEffect(() => {
+    document.title = 'Crear cuenta · Ferretería El Catire'
+  }, [])
+
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
@@ -47,15 +52,33 @@ export default function RegisterPage() {
     const apellidoLimpio = apellido.trim()
 
     setLoading(true)
+
+    const { data: existing } = await supabase
+      .from('Perfiles')
+      .select('email')
+      .eq('email', email.trim())
+      .maybeSingle()
+
+    if (existing) {
+      setLoading(false)
+      setErr('Este correo ya está registrado. Intenta iniciar sesión o usa otro correo.')
+      return
+    }
+
     const { data, error } = await supabase.auth.signUp({
-      email,
+      email: email.trim(),
       password: pass,
       options: { data: { nombre: nombreLimpio, apellido: apellidoLimpio } }
     })
     setLoading(false)
 
     if (error) {
-      setErr(error.message)
+      const msg = error.message || ''
+      if (msg.includes('already') || msg.includes('ya está registrado') || msg.includes('already registered') || error.code === 'email_already_exists') {
+        setErr('Este correo ya está registrado. Intenta iniciar sesión o usa otro correo.')
+      } else {
+        setErr('Ocurrió un error al crear la cuenta. Intenta de nuevo.')
+      }
       return
     }
 
@@ -67,8 +90,8 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-      <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16">
-        <Link className="flex items-center self-start mb-10" to="/" aria-label="Ferretería El Catire, ir al catálogo">
+      <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16 items-center lg:items-start">
+        <Link className="flex items-center self-center lg:self-start mb-10" to="/" aria-label="Ferretería El Catire, ir al catálogo">
           <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-45 w-auto transition-transform duration-200 hover:scale-105" />
         </Link>
 
@@ -122,7 +145,7 @@ export default function RegisterPage() {
         </div>
       </section>
 
-      <Slider />
+      <div className="hidden lg:block"><Slider /></div>
       <Toast message={err || msg} />
     </div>
   )

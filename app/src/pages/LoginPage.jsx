@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import Slider from '../components/Slider'
@@ -8,6 +8,11 @@ const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-3 text
 
 export default function LoginPage() {
   const [mode, setMode] = useState('login')
+
+  useEffect(() => {
+    document.title = 'Iniciar sesión · Ferretería El Catire'
+  }, [])
+
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [loading, setLoading] = useState(false)
@@ -72,8 +77,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-      <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16">
-        <Link className="flex items-center self-start mb-8" to="/" aria-label="Ferretería El Catire, ir al catálogo">
+      <section className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16 items-center lg:items-start">
+        <Link className="flex items-center self-center lg:self-start mb-8" to="/" aria-label="Ferretería El Catire, ir al catálogo">
           <img src="/img/chamo.png" alt="Logo Ferretería El Catire" className="h-45 w-auto transition-transform duration-200 hover:scale-105" />
         </Link>
 
@@ -176,7 +181,7 @@ export default function LoginPage() {
         </div>
       </section>
 
-      <Slider />
+      <div className="hidden lg:block"><Slider /></div>
       <Toast message={err || msg} />
     </div>
   )

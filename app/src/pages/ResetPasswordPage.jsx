@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
@@ -9,6 +9,11 @@ const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-3 text
 export default function ResetPasswordPage() {
   const { user, loading } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = 'Restablecer contraseña · Ferretería El Catire'
+  }, [])
+
   const [pass, setPass] = useState('')
   const [confirm, setConfirm] = useState('')
   const [saving, setSaving] = useState(false)

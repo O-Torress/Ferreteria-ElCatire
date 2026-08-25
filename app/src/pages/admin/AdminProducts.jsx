@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
 import { CATEGORIES, categoryLabel } from '../../lib/utils'
@@ -11,6 +11,11 @@ const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-2.5 te
 
 export default function AdminProducts() {
   const { products, reload } = useProducts()
+
+  useEffect(() => {
+    document.title = 'Admin: Productos – Ferretería El Catire'
+  }, [])
+
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState(EMPTY)
   const [saving, setSaving] = useState(false)

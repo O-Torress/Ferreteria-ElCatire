@@ -20,6 +20,14 @@ export default function ProductDetailPage() {
   const out = stock <= 0
 
   useEffect(() => {
+    if (product) {
+      document.title = product.nombre + ' · Ferretería El Catire'
+    } else if (!loading) {
+      document.title = 'Producto no encontrado · Ferretería El Catire'
+    }
+  }, [product, loading])
+
+  useEffect(() => {
     setQty(1)
   }, [id])
 
@@ -30,7 +38,7 @@ export default function ProductDetailPage() {
 
   function addToCart() {
     if (out) return
-    add(product.id, qty)
+    add(product.id, qty, stock)
     setCartOpen(true)
   }
 

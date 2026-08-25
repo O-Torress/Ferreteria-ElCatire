@@ -26,6 +26,10 @@ export default function AccountPage() {
   const [cartOpen, setCartOpen] = useState(false)
 
   useEffect(() => {
+    document.title = 'Mi cuenta  · Ferretería El Catire'
+  }, [])
+
+  useEffect(() => {
     setForm({
       nombre: profile?.nombre ?? meta.nombre ?? '',
       apellido: profile?.apellido ?? meta.apellido ?? ''

@@ -42,7 +42,30 @@ export function CartProvider({ children }) {
     localStorage.setItem(STORE_KEY, JSON.stringify(items))
   }, [items])
 
-  const add = (id, n = 1) => setItems((p) => ({ ...p, [id]: (p[id] || 0) + Math.max(1, Math.round(Number(n)) || 1) }))
+  useEffect(() => {
+    setItems((prev) => {
+      const keys = Object.keys(prev)
+      const cleaned = keys.filter((id) => byId[id] && byId[id].activo)
+      if (cleaned.length === keys.length) return prev
+      const next = {}
+      cleaned.forEach((id) => { next[id] = prev[id] })
+      return next
+    })
+  }, [byId])
+
+  const add = (id, n = 1, stock = null) =>
+    setItems((p) => {
+      const qty = Math.max(1, Math.round(Number(n)) || 1)
+      const current = p[id] || 0
+      const max = stock != null ? Math.max(0, Number(stock) || 0) : null
+      const nextQty = max != null ? Math.min(current + qty, max) : current + qty
+      if (nextQty <= 0) {
+        const next = { ...p }
+        delete next[id]
+        return next
+      }
+      return { ...p, [id]: nextQty }
+    })
   const dec = (id) =>
     setItems((p) => {
       const next = { ...p }
@@ -62,7 +85,7 @@ export function CartProvider({ children }) {
   const count = useMemo(() => Object.values(items).reduce((s, n) => s + n, 0), [items])
 
   const validIds = useMemo(
-    () => Object.keys(items).filter((id) => byId[id]),
+    () => Object.keys(items).filter((id) => byId[id] && byId[id].activo),
     [items, byId]
   )
 
