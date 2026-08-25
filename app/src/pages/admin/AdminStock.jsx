@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
+import { CATEGORIES } from '../../lib/utils'
 import Pagination from '../../components/Pagination'
 
 const PER_PAGE = 10
@@ -11,10 +12,20 @@ export default function AdminStock() {
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
   const [page, setPage] = useState(1)
+  const [cat, setCat] = useState('all')
 
-  const totalPages = Math.ceil(products.length / PER_PAGE)
+  const counts = {}
+  products.forEach((p) => { counts[p.categoria] = (counts[p.categoria] || 0) + 1 })
+  const filtered = cat === 'all' ? products : products.filter((p) => p.categoria === cat)
+
+  const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const safePage = Math.min(page, totalPages || 1)
-  const paged = products.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE)
+  const paged = filtered.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE)
+
+  function pickCat(id) {
+    setCat(id)
+    setPage(1)
+  }
 
   function valueFor(id) {
     const p = products.find((x) => x.id === id)
@@ -55,6 +66,30 @@ export default function AdminStock() {
         </button>
       </div>
 
+      <div className="flex items-center gap-2 flex-wrap mb-5" role="group" aria-label="Filtrar por categoría">
+        {[{ id: 'all', label: 'Todas' }, ...CATEGORIES].map((c) => {
+          const on = cat === c.id
+          return (
+            <button
+              key={c.id}
+              onClick={() => pickCat(c.id)}
+              aria-pressed={on}
+              className={
+                'inline-flex items-center gap-1.5 h-[42px] px-4 rounded-full border text-sm tracking-[0.02em] transition-colors ' +
+                (on
+                  ? 'border-brand bg-brand text-white font-semibold shadow-[0_2px_8px_rgba(238,102,16,0.35)]'
+                  : 'border-line bg-white text-ink hover:border-brand hover:text-brand')
+              }
+            >
+              {c.label}
+              <span className={'text-xs font-semibold ' + (on ? 'text-white/80' : 'text-muted')}>
+                {c.id === 'all' ? products.length : (counts[c.id] || 0)}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
       {msg && <p className="text-sm text-action font-medium mb-4">{msg}</p>}
       {err && <p className="text-sm text-[#b91c1c] font-medium mb-4">{err}</p>}
 
@@ -67,6 +102,7 @@ export default function AdminStock() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-line text-left text-[12.5px] uppercase tracking-[0.06em] text-muted">
+                <th className="px-4 py-3 font-semibold">Código</th>
                 <th className="px-4 py-3 font-semibold min-w-[220px]">Producto</th>
                 <th className="px-4 py-3 font-semibold text-center min-w-[160px]">Stock disponible</th>
               </tr>
@@ -74,6 +110,7 @@ export default function AdminStock() {
             <tbody>
               {paged.map((p) => (
                 <tr key={p.id} className="border-b border-line last:border-0">
+                  <td className="px-4 py-3 text-muted whitespace-nowrap">{p.sku}</td>
                   <td className="px-4 py-3">
                     <p className="font-semibold text-ink leading-snug">{p.nombre}</p>
                   </td>
