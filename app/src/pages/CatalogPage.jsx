@@ -89,7 +89,7 @@ export default function CatalogPage() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 min-[536px]:grid-cols-2 min-[740px]:grid-cols-3 gap-5">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="bg-white border border-line rounded-lg overflow-hidden">
                   <div className="aspect-square bg-media"></div>
@@ -103,7 +103,7 @@ export default function CatalogPage() {
               ))}
             </div>
           ) : list.length === 0 ? (
-            <div className="sm:col-span-3 text-center py-16 text-muted">
+            <div className="min-[740px]:col-span-3 text-center py-16 text-muted">
               {error ? (
                 <span className="text-[#b91c1c]">Error al cargar: {error}</span>
               ) : query || cat !== 'all' ? (
@@ -113,7 +113,7 @@ export default function CatalogPage() {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 min-[536px]:grid-cols-2 min-[740px]:grid-cols-3 gap-5">
               {paged.map((p) => (
                 <ProductCard key={p.id} product={p} stockQty={p.stock} rate={rate} />
               ))}
