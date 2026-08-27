@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 
-const iconBase = 'relative w-11 h-11 grid place-items-center rounded-lg border transition-colors '
+const iconBase = 'relative w-11 h-11 grid place-items-center rounded-lg border transition-colors cursor-pointer '
 const iconDefault = 'bg-white/15 border-white/40 text-white hover:bg-brand/20'
 const iconActive = 'bg-brand/25 border-brand/60 text-brand'
 
@@ -34,7 +34,7 @@ export default function LandingHeader({ onOpenCart }) {
         <div className="flex items-center gap-3 ml-auto lg:ml-0">
           <button
             onClick={() => setMobileNav(!mobileNav)}
-            className="lg:hidden w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors"
+            className="lg:hidden w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors cursor-pointer"
             aria-label="Menú de navegación"
           >
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" aria-hidden="true">
@@ -45,7 +45,7 @@ export default function LandingHeader({ onOpenCart }) {
           <div className="hidden lg:flex items-center gap-3">
           <button
             onClick={onOpenCart}
-            className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors"
+            className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors cursor-pointer"
             aria-label="Abrir carrito de compras"
           >
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h2.2l2 12.2a1.6 1.6 0 0 0 1.6 1.3h8.7a1.6 1.6 0 0 0 1.6-1.3L20.5 8H5.2"/></svg>

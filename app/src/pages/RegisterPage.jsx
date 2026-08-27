@@ -52,18 +52,6 @@ export default function RegisterPage() {
 
     setLoading(true)
 
-    const { data: existing } = await supabase
-      .from('Perfiles')
-      .select('email')
-      .eq('email', email.trim())
-      .maybeSingle()
-
-    if (existing) {
-      setLoading(false)
-      setErr('Este correo ya está registrado. Intenta iniciar sesión o usa otro correo.')
-      return
-    }
-
     const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password: pass,
