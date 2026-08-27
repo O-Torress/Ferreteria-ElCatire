@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 
-const iconBase = 'relative w-11 h-11 grid place-items-center rounded-lg border transition-colors '
+const iconBase = 'relative w-11 h-11 grid place-items-center rounded-lg border transition-colors cursor-pointer '
 const iconDefault = 'bg-white/15 border-white/40 text-white hover:bg-brand/20'
 const iconActive = 'bg-brand/25 border-brand/60 text-brand'
 
@@ -36,7 +36,7 @@ export default function Header({ query, onQuery, onOpenCart, hideSearch }) {
               className="flex-1 min-w-0 outline-none px-3.5 py-3 text-sm text-ink bg-transparent placeholder:text-muted focus-visible:outline-none"
             />
             <button
-              className="bg-brand hover:bg-branddeep text-white px-3.5 py-3 font-semibold text-sm tracking-[0.02em] flex items-center gap-1.5 transition-colors focus-visible:outline-none"
+              className="bg-brand hover:bg-branddeep text-white px-3.5 py-3 font-semibold text-sm tracking-[0.02em] flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none"
               onClick={() => { if (query && query.trim()) navigate('/catalogo') }}
             >
               Buscar
@@ -49,7 +49,7 @@ export default function Header({ query, onQuery, onOpenCart, hideSearch }) {
             <button
               data-od-id="mobile-search-button"
               onClick={() => setMobileSearch(true)}
-              className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors xs:hidden"
+              className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors cursor-pointer xs:hidden"
               aria-label="Buscar productos"
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -58,7 +58,7 @@ export default function Header({ query, onQuery, onOpenCart, hideSearch }) {
 
           <button
             onClick={onOpenCart}
-            className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors"
+            className="relative w-11 h-11 grid place-items-center rounded-lg bg-white/15 border border-white/40 text-white hover:bg-brand/20 transition-colors cursor-pointer"
             aria-label="Abrir carrito de compras"
           >
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h2.2l2 12.2a1.6 1.6 0 0 0 1.6 1.3h8.7a1.6 1.6 0 0 0 1.6-1.3L20.5 8H5.2"/></svg>
@@ -105,7 +105,7 @@ export default function Header({ query, onQuery, onOpenCart, hideSearch }) {
         <div data-od-id="mobile-search-bar" className="fixed inset-x-0 top-0 z-[70] bg-ink px-3 py-2.5 flex items-center gap-2 xs:hidden shadow-[0_2px_10px_rgba(26,37,54,0.25)]">
           <button
             onClick={() => setMobileSearch(false)}
-            className="w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-white/15 transition-colors flex-none"
+            className="w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-white/15 transition-colors cursor-pointer flex-none"
             aria-label="Cerrar búsqueda"
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>

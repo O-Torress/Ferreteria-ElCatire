@@ -16,10 +16,10 @@ export default function Footer() {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-1.5">
+        <div className="min-w-0 flex flex-col gap-1.5">
           <h3 className="font-display font-semibold text-[20px] tracking-[-0.01em]">Contacto</h3>
-          <p className="text-base text-white/70">
-            <a href="https://mail.google.com" className="underline">Elnuevocatireferreteria@gmail.com</a><br /> <br /> +58-424262630 
+          <p className="min-w-0 text-base text-white/70">
+            <a href="https://mail.google.com" className="break-all underline">Elnuevocatireferreteria@gmail.com</a><br /> <br /> +58-424262630 
           </p>
         </div>
         <div className="flex flex-col gap-1.5">

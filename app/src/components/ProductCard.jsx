@@ -37,7 +37,7 @@ export default function ProductCard({ product, stockQty, rate }) {
         <button
           disabled={out}
           onClick={() => add(product.id, 1, product.stock)}
-          className="add mt-auto bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 min-h-11 transition-colors disabled:bg-disabled disabled:cursor-not-allowed"
+          className="cursor-pointer add mt-auto bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 min-h-11 transition-colors disabled:bg-disabled disabled:cursor-not-allowed"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           {out ? 'Sin stock' : 'Añadir al carrito'}

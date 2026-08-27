@@ -10,7 +10,7 @@ function getPages(page, total) {
   return items
 }
 
-const BASE = 'min-w-[42px] h-[42px] px-3 rounded-full border text-sm font-medium tracking-[0.02em] flex items-center justify-center transition-colors'
+const BASE = 'min-w-[42px] h-[42px] px-3 rounded-full border text-sm font-medium tracking-[0.02em] flex items-center justify-center transition-colors cursor-pointer'
 
 export default function Pagination({ page, total, onChange }) {
   if (!total || total <= 1) return null

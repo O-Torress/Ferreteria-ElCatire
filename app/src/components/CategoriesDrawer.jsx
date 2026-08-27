@@ -30,7 +30,7 @@ export default function CategoriesDrawer({ open, onClose, active, onSelect, show
       >
         <header className="flex items-center gap-2 px-5 py-3.5 border-b border-line">
           <h2 className="font-display text-[19px] font-semibold tracking-[-0.01em]">Categorías <br /><p className="text-xs text-muted">Filtra el catálogo por categoría.</p> </h2>
-          <button onClick={onClose} className="w-10 h-10 ml-auto rounded-lg text-muted hover:bg-canvas hover:text-ink grid place-items-center transition-colors" aria-label="Cerrar categorías">
+          <button onClick={onClose} className="w-10 h-10 ml-auto rounded-lg text-muted hover:bg-canvas hover:text-ink grid place-items-center transition-colors cursor-pointer" aria-label="Cerrar categorías">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
           </button>
         </header>
@@ -44,7 +44,7 @@ export default function CategoriesDrawer({ open, onClose, active, onSelect, show
                 key={c.id}
                 onClick={() => pick(c.id)}
                 className={
-                  'flex items-center gap-3 px-4 py-3.5 rounded-lg text-left text-[15px] min-h-[50px] transition-colors ' +
+                  'flex items-center gap-3 px-4 py-3.5 rounded-lg text-left text-[15px] min-h-[50px] transition-colors cursor-pointer ' +
                   (on
                     ? 'bg-brand text-white font-semibold shadow-[0_2px_8px_rgba(238,102,16,0.35)]'
                     : 'text-ink font-medium hover:bg-canvas hover:text-brand')

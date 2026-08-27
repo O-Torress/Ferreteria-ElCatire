@@ -131,7 +131,7 @@ export default function AccountPage() {
             {msg && <p className="text-sm text-action font-medium mt-3.5">{msg}</p>}
             {err && <p className="text-sm text-[#b91c1c] font-medium mt-3.5">{err}</p>}
 
-            <button type="submit" disabled={saving} className="mt-4 bg-brand hover:bg-brandhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:opacity-60">
+            <button type="submit" disabled={saving} className="cursor-pointer mt-4 bg-brand hover:bg-brandhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:opacity-60">
               {saving ? 'Guardando…' : 'Guardar cambios'}
             </button>
           </form>
@@ -152,7 +152,7 @@ export default function AccountPage() {
             {passMsg && <p className="text-sm text-action font-medium mt-3.5">{passMsg}</p>}
             {passErr && <p className="text-sm text-[#b91c1c] font-medium mt-3.5">{passErr}</p>}
 
-            <button type="submit" disabled={passSaving} className="mt-4 bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:opacity-60">
+            <button type="submit" disabled={passSaving} className="cursor-pointer mt-4 bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:opacity-60">
               {passSaving ? 'Actualizando…' : 'Actualizar contraseña'}
             </button>
           </form>
@@ -163,7 +163,7 @@ export default function AccountPage() {
               <p className="text-muted text-sm mt-0.5">Cierra sesión en este dispositivo.</p>
             </div>
             <div className="flex items-center gap-2.5">
-              <button onClick={logout} className="text-sm font-semibold text-[#b91c1c] border border-[#b91c1c]/40 hover:bg-[#fdeeee] px-4 py-2.5 rounded-lg min-h-[42px] transition-colors">
+              <button onClick={logout} className="cursor-pointer text-sm font-semibold text-[#b91c1c] border border-[#b91c1c]/40 hover:bg-[#fdeeee] px-4 py-2.5 rounded-lg min-h-[42px] transition-colors">
                 Cerrar sesión
               </button>
             </div>

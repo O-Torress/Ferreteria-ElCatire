@@ -139,7 +139,7 @@ export default function AdminProducts() {
         </div>
         <button
           onClick={startNew}
-          className="flex items-center gap-1.5 bg-brand hover:bg-brandhover text-white font-semibold text-sm tracking-[0.02em] px-4 py-2.5 rounded-lg min-h-[42px] transition-colors"
+          className="flex items-center gap-1.5 bg-brand hover:bg-brandhover text-white font-semibold text-sm tracking-[0.02em] px-4 py-2.5 rounded-lg min-h-[42px] transition-colors cursor-pointer"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           Nuevo producto
@@ -149,7 +149,7 @@ export default function AdminProducts() {
       <div className="mb-5">
         <button
           onClick={() => setCatsOpen(true)}
-          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px]"
+          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px] cursor-pointer"
           aria-haspopup="dialog"
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -201,10 +201,10 @@ export default function AdminProducts() {
             <input value={form.imagen_url} onChange={(e) => setForm((f) => ({ ...f, imagen_url: e.target.value }))} placeholder="https://… o URL pública de Supabase Storage" className={inputCls} />
           </div>
           <div className="flex items-center gap-2.5 sm:col-span-2">
-            <button type="submit" disabled={saving} className="bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:opacity-60">
+            <button type="submit" disabled={saving} className="bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
               {saving ? 'Guardando…' : isNew ? 'Crear producto' : 'Guardar cambios'}
             </button>
-            <button type="button" onClick={cancel} className="text-sm font-medium text-muted hover:text-ink px-3 py-2.5 transition-colors">Cancelar</button>
+            <button type="button" onClick={cancel} className="text-sm font-medium text-muted hover:text-ink px-3 py-2.5 transition-colors cursor-pointer">Cancelar</button>
           </div>
         </form>
       )}
@@ -256,13 +256,13 @@ export default function AdminProducts() {
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1.5">
                       {!p.activo && (
-                        <button onClick={() => toggleActive(p)} className="text-xs font-medium text-action hover:bg-canvas px-2 py-1.5 rounded-md transition-colors">
+                        <button onClick={() => toggleActive(p)} className="text-xs font-medium text-action hover:bg-canvas px-2 py-1.5 rounded-md transition-colors cursor-pointer">
                           Publicar
                         </button>
                       )}
-                      <button onClick={() => startEdit(p)} className="text-xs font-medium text-muted hover:text-ink px-2 py-1.5 rounded-md hover:bg-canvas transition-colors">Editar</button>
+                      <button onClick={() => startEdit(p)} className="text-xs font-medium text-muted hover:text-ink px-2 py-1.5 rounded-md hover:bg-canvas transition-colors cursor-pointer">Editar</button>
                       {p.activo && (
-                        <button onClick={() => remove(p)} className="text-xs font-medium text-[#b91c1c] hover:bg-[#fdeeee] px-2 py-1.5 rounded-md transition-colors">Eliminar</button>
+                        <button onClick={() => remove(p)} className="text-xs font-medium text-[#b91c1c] hover:bg-[#fdeeee] px-2 py-1.5 rounded-md transition-colors cursor-pointer">Eliminar</button>
                       )}
                     </div>
                   </td>

@@ -249,9 +249,10 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
+      <section id="contacto">
+      <Footer/>
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      </section>
     </div>
   )
 }

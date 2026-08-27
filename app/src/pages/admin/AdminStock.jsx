@@ -67,7 +67,7 @@ export default function AdminStock() {
         <button
           onClick={saveAll}
           disabled={Object.keys(drafts).length === 0}
-          className="bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-4 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:bg-disabled disabled:cursor-not-allowed"
+          className="bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-4 py-2.5 rounded-lg min-h-[42px] transition-colors cursor-pointer disabled:bg-disabled disabled:cursor-not-allowed"
         >
           {Object.keys(drafts).length > 0 ? 'Guardar cambios (' + Object.keys(drafts).length + ')' : 'Guardar cambios'}
         </button>
@@ -76,7 +76,7 @@ export default function AdminStock() {
       <div className="mb-5">
         <button
           onClick={() => setCatsOpen(true)}
-          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px]"
+          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px] cursor-pointer"
           aria-haspopup="dialog"
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
