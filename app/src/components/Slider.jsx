@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 const SLIDER_IMAGES = [
-  '/img/slider/img1.PNG',
-  '/img/slider/img2.jpg',
-  '/img/slider/img3.jpg',
-  '/img/slider/img4.jpg'
+  '/img/slider/img1.webp',
+  '/img/slider/img2.webp',
+  '/img/slider/img3.webp',
+  '/img/slider/img4.webp'
 ]
 
 export default function Slider() {

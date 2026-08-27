@@ -45,7 +45,7 @@ export default function LoginPage() {
       return
     }
     if (data?.user) {
-      setMsg('Bienvenido de nuevo.')
+      setMsg('Bienvenido.')
       setTimeout(() => navigate('/'), 700)
     }
   }
@@ -63,8 +63,9 @@ export default function LoginPage() {
       return
     }
     setLoading(true)
+    const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: window.location.origin + '/restablecer'
+      redirectTo: siteUrl + '/restablecer'
     })
     setLoading(false)
     if (error) {

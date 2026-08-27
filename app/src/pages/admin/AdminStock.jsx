@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useProducts } from '../../context/ProductsContext'
-import { CATEGORIES, categoryLabel } from '../../lib/utils'
+import { CATEGORIES, categoryLabel, normalizeText } from '../../lib/utils'
 import Pagination from '../../components/Pagination'
 import CategoriesDrawer from '../../components/CategoriesDrawer'
 
@@ -19,11 +19,16 @@ export default function AdminStock() {
   const [err, setErr] = useState('')
   const [page, setPage] = useState(1)
   const [cat, setCat] = useState('all')
+  const [search, setSearch] = useState('')
   const [catsOpen, setCatsOpen] = useState(false)
 
   const counts = {}
   products.forEach((p) => { counts[p.categoria] = (counts[p.categoria] || 0) + 1 })
-  const filtered = cat === 'all' ? products : products.filter((p) => p.categoria === cat)
+  const nq = normalizeText(search)
+  const byCat = cat === 'all' ? products : products.filter((p) => p.categoria === cat)
+  const filtered = nq
+    ? byCat.filter((p) => normalizeText(p.nombre).includes(nq) || String(p.sku).includes(nq))
+    : byCat
 
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const safePage = Math.min(page, totalPages || 1)
@@ -73,10 +78,10 @@ export default function AdminStock() {
         </button>
       </div>
 
-      <div className="mb-5">
+      <div className="flex flex-col lg:flex-row lg:items-center gap-3 mb-5">
         <button
           onClick={() => setCatsOpen(true)}
-          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px] cursor-pointer"
+          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-[0.02em] text-ink hover:text-brand transition-colors min-h-[42px] cursor-pointer flex-none"
           aria-haspopup="dialog"
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -84,6 +89,16 @@ export default function AdminStock() {
           {cat !== 'all' && <span className="text-brand">· {categoryLabel(cat)}</span>}
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5"><path d="m9 18 6-6-6-6"/></svg>
         </button>
+        <div className="relative w-full lg:max-w-md lg:ml-auto">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-disabled pointer-events-none"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+            placeholder="Buscar por nombre o código…"
+            className="w-full rounded-lg border border-line bg-white py-2.5 pl-10 pr-4 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
+          />
+        </div>
       </div>
 
       {msg && <p className="text-sm text-action font-medium mb-4">{msg}</p>}
@@ -93,6 +108,10 @@ export default function AdminStock() {
         {products.length === 0 ? (
           <div className="text-sm text-muted text-center py-12">
             Aún no hay productos para gestionar stock.
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="text-sm text-muted text-center py-12">
+            No se encontraron productos{search ? ' con «' + search + '»' : ''}.
           </div>
         ) : (
           <table className="w-full text-sm">

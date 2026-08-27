@@ -9,30 +9,30 @@ import { useCart } from '../context/CartContext'
 import { CATEGORIES, categoryLabel } from '../lib/utils'
 
 const SLIDER_IMAGES = [
-  '/img/slider/img1.PNG',
-  '/img/slider/img2.jpg',
-  '/img/slider/img3.jpg',
-  '/img/slider/img4.jpg'
+  '/img/slider/img1.webp',
+  '/img/slider/img2.webp',
+  '/img/slider/img3.webp',
+  '/img/slider/img4.webp'
 ]
 
 const HERO_DATA = [
   {
-    img: '/img/slider/img1.PNG',
+    img: '/img/slider/img1.webp',
     title: 'Todo lo que necesitas para tu proyecto',
     sub: 'Herramientas, materiales y asesoría experta en un solo lugar.'
   },
   {
-    img: '/img/slider/img2.jpg',
-    title: 'Calidad que puedes confiar',
+    img: '/img/slider/img2.webp',
+    title: 'Calidad en la que puedes confiar',
     sub: 'Las mejores marcas para resultados profesionales.'
   },
   {
-    img: '/img/slider/img3.jpg',
+    img: '/img/slider/img3.webp',
     title: 'Precios competitivos en Maracaibo',
     sub: 'Retiro en tienda o consulta por WhatsApp.'
   },
   {
-    img: '/img/slider/img4.jpg',
+    img: '/img/slider/img4.webp',
     title: 'Amplio catálogo de productos',
     sub: 'Más de 76 productos disponibles para tu construcción y remodelación.'
   }

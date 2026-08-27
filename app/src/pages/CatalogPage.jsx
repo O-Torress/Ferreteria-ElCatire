@@ -68,8 +68,8 @@ export default function CatalogPage() {
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <div>
               <h1 className="font-display font-bold text-[clamp(26px,3vw,32px)] text-brand tracking-[-0.01em] leading-[1.15]">Catálogo de productos</h1>
-              <p className="text-muted text-sm mt-0.5">
-                Retiro en tienda fisica
+              <p className="text-muted text-sm mt-1">
+                Retiro en tienda física
                 {rateLabel && <span> · Tasa de referencia: {rateLabel}</span>}
               </p>
             </div>
