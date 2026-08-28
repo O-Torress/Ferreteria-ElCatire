@@ -11,18 +11,22 @@ import { CATEGORIES, categoryLabel } from '../lib/utils'
 const HERO_DATA = [
   {
     img: '/img/slider/imgf.jpg',
+    mobileImg: '/img/slider/img1.webp',
     title: 'Tenemos todo lo que buscas',
   },
   {
     img: '/img/slider/imgf2.jpg',
+    mobileImg: '/img/slider/img2.webp',
     title: 'Calidad en la que puedes confiar',
   },
   {
     img: '/img/slider/imgf3.jpg',
+    mobileImg: '/img/slider/img3.webp',
     title: 'Precios competitivos',
   },
   {
     img: '/img/slider/imgf4.jpg',
+    mobileImg: '/img/slider/img4.webp',
     title: 'Amplio catálogo de productos',
   }
 ]
@@ -87,7 +91,10 @@ export default function LandingPage() {
               className="absolute inset-0 transition-opacity duration-[1200ms]"
               style={{ opacity: i === heroIdx ? 1 : 0 }}
             >
-              <img src={h.img} alt="" className="w-full h-full object-cover" style={{ imageRendering: 'auto' }} loading="eager" />
+              <picture>
+                <source media="(max-width: 812px)" srcSet={h.mobileImg} />
+                <img src={h.img} alt="" className="w-full h-full object-cover" style={{ imageRendering: 'auto' }} loading="eager" />
+              </picture>
             </div>
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-inkdeep/90 via-inkdeep/50 to-inkdeep/20" />
