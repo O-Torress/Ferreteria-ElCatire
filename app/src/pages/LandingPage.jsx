@@ -8,28 +8,21 @@ import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { CATEGORIES, categoryLabel } from '../lib/utils'
 
-const SLIDER_IMAGES = [
-  '/img/slider/img1.webp',
-  '/img/slider/img2.webp',
-  '/img/slider/img3.webp',
-  '/img/slider/img4.webp'
-]
-
 const HERO_DATA = [
   {
-    img: '/img/slider/img1.webp',
-    title: 'Todo lo que necesitas para tu proyecto',
+    img: '/img/slider/imgf.jpg',
+    title: 'Tenemos todo lo que buscas',
   },
   {
-    img: '/img/slider/img2.webp',
+    img: '/img/slider/imgf2.jpg',
     title: 'Calidad en la que puedes confiar',
   },
   {
-    img: '/img/slider/img3.webp',
-    title: 'Precios competitivos en Maracaibo',
+    img: '/img/slider/imgf3.jpg',
+    title: 'Precios competitivos',
   },
   {
-    img: '/img/slider/img4.webp',
+    img: '/img/slider/imgf4.jpg',
     title: 'Amplio catálogo de productos',
   }
 ]
@@ -99,12 +92,9 @@ export default function LandingPage() {
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-inkdeep/90 via-inkdeep/50 to-inkdeep/20" />
           <div className="relative z-10 max-w-[1280px] mx-auto px-5 h-full flex flex-col justify-end pb-16">
-            <h1 className="font-display font-bold text-[clamp(28px,5vw,44px)] text-white leading-[1.1] max-w-[600px]">
+            <h1 className="font-display font-bold text-[clamp(28px,5vw,44px)] text-white leading-[1.1] max-w-[750px]">
               {hero.title}
             </h1>
-            <p className="text-white/80 text-[clamp(14px,2vw,17px)] mt-3 max-w-[500px]">
-              {hero.sub}
-            </p>
             <div className="flex items-center gap-3 mt-6 flex-wrap">
               <Link
                 to="/catalogo"
