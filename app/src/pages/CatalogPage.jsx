@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import CategoriesDrawer from '../components/CategoriesDrawer'
@@ -7,7 +8,7 @@ import CartDrawer from '../components/CartDrawer'
 import Pagination from '../components/Pagination'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
-import { normalizeText, categoryLabel } from '../lib/utils'
+import { CATEGORIES, normalizeText, categoryLabel } from '../lib/utils'
 
 export default function CatalogPage() {
   const { products, loading, error } = useProducts()
@@ -18,7 +19,9 @@ export default function CatalogPage() {
 
   const { rate, rateLabel } = useCart()
 
-  const [cat, setCat] = useState('all')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const catParam = searchParams.get('cat')
+  const cat = CATEGORIES.some((c) => c.id === catParam) ? catParam : 'all'
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
   const [cartOpen, setCartOpen] = useState(false)
@@ -29,12 +32,19 @@ export default function CatalogPage() {
   const onQuery = (v) => {
     setQuery(v)
     setPage(1)
-    if (v.trim() && cat !== 'all') setCat('all')
+    if (v.trim() && cat !== 'all') {
+      const sp = new URLSearchParams(searchParams)
+      sp.delete('cat')
+      setSearchParams(sp, { replace: true })
+    }
   }
 
   const onSelectCat = (c) => {
-    setCat(c)
     setPage(1)
+    const sp = new URLSearchParams(searchParams)
+    if (c === 'all') sp.delete('cat')
+    else sp.set('cat', c)
+    setSearchParams(sp, { replace: true })
   }
 
   const list = useMemo(() => {

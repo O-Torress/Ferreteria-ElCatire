@@ -10,7 +10,7 @@ export const CATEGORIES = [
 ]
 
 export const WHATSAPP_NUMBER = '584242626309'
-export const DEFAULT_RATE = 36.5
+export const DEFAULT_RATE = 795
 
 export function normalizeText(s) {
   return String(s ?? '')
