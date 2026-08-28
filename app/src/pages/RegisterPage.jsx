@@ -70,7 +70,7 @@ export default function RegisterPage() {
     }
 
     if (data?.user) {
-      setMsg('Cuenta creada. Revisa tu correo para confirmar y luego inicia sesión.')
+      setMsg('Cuenta creada.')
       setTimeout(() => navigate('/login'), 1800)
     }
   }
