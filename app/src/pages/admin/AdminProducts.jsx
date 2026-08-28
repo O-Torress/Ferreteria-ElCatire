@@ -8,6 +8,8 @@ import CategoriesDrawer from '../../components/CategoriesDrawer'
 const EMPTY = { nombre: '', codigo: '', categoria: 'herramientas', precio_usd: '', imagen_url: '', marca: '', descripcion: '', stock: '' }
 const PER_PAGE = 10
 
+const BUCKET = 'productos'
+
 const inputCls = 'w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-disabled outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20'
 
 export default function AdminProducts() {
@@ -26,6 +28,8 @@ export default function AdminProducts() {
   const [cat, setCat] = useState('all')
   const [search, setSearch] = useState('')
   const [catsOpen, setCatsOpen] = useState(false)
+  const [imageFile, setImageFile] = useState(null)
+  const [uploading, setUploading] = useState(false)
 
   const counts = {}
   products.forEach((p) => { counts[p.categoria] = (counts[p.categoria] || 0) + 1 })
@@ -46,9 +50,28 @@ export default function AdminProducts() {
 
   const isNew = editing === 'new'
 
+  function resetImageState() {
+    setImageFile(null)
+    setUploading(false)
+  }
+
+  async function uploadImage() {
+    if (!imageFile) return null
+    const ext = (imageFile.name.split('.').pop() || 'png').toLowerCase().replace(/[^a-z0-9]/g, '')
+    const path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext
+    const { error } = await supabase.storage.from(BUCKET).upload(path, imageFile, {
+      cacheControl: '3600',
+      upsert: false
+    })
+    if (error) throw error
+    const { data: pub } = supabase.storage.from(BUCKET).getPublicUrl(path)
+    return pub.publicUrl
+  }
+
   function startNew() {
     setEditing('new')
     setForm(EMPTY)
+    resetImageState()
     setErr('')
     setMsg('')
   }
@@ -65,6 +88,7 @@ export default function AdminProducts() {
       descripcion: p.descripcion || '',
       stock: String(p.stock ?? 0)
     })
+    resetImageState()
     setErr('')
     setMsg('')
   }
@@ -72,6 +96,7 @@ export default function AdminProducts() {
   function cancel() {
     setEditing(null)
     setForm(EMPTY)
+    resetImageState()
     setErr('')
     setMsg('')
   }
@@ -86,8 +111,18 @@ export default function AdminProducts() {
       setErr('Completa nombre, un código numérico válido y un precio válido.')
       return
     }
-    const imgTrimmed = form.imagen_url.trim()
-    if (imgTrimmed && !imgTrimmed.startsWith('https://')) {
+    let imgUrl = form.imagen_url.trim() || null
+    if (imageFile) {
+      if (!imageFile.type.startsWith('image/')) {
+        setErr('El archivo seleccionado debe ser una imagen (JPG, PNG, WebP…).')
+        return
+      }
+      if (imageFile.size > 2 * 1024 * 1024) {
+        setErr('La imagen no puede superar los 2 MB.')
+        return
+      }
+    }
+    if (imgUrl && !imageFile && !imgUrl.startsWith('https://')) {
       setErr('La URL de la imagen debe comenzar con https://')
       return
     }
@@ -96,13 +131,26 @@ export default function AdminProducts() {
       codigo,
       categoria: form.categoria,
       precio_detal: precio,
-      img_url: imgTrimmed || null,
+      img_url: imgUrl,
       marca: form.marca.trim() || null,
       descripcion: form.descripcion.trim() || null,
       stock: Math.max(0, Math.round(Number(form.stock) || 0))
     }
     setSaving(true)
     let error = null
+    if (imageFile) {
+      setUploading(true)
+      try {
+        imgUrl = await uploadImage()
+      } catch (upErr) {
+        setUploading(false)
+        setSaving(false)
+        setErr('No se pudo subir la imagen: ' + (upErr.message || 'error de Storage'))
+        return
+      }
+      payload.img_url = imgUrl
+      setUploading(false)
+    }
     if (isNew) {
       const res = await supabase.from('Productos').insert(payload).maybeSingle()
       error = res.error
@@ -118,6 +166,7 @@ export default function AdminProducts() {
     setMsg(isNew ? 'Producto creado.' : 'Producto actualizado.')
     setEditing(null)
     setForm(EMPTY)
+    resetImageState()
     reload()
   }
 
@@ -212,12 +261,49 @@ export default function AdminProducts() {
             <textarea rows="3" value={form.descripcion} onChange={(e) => setForm((f) => ({ ...f, descripcion: e.target.value }))} placeholder="Describe el producto: medidas, materiales, uso recomendado…" className={inputCls + ' resize-y'}></textarea>
           </div>
           <div className="flex flex-col gap-1.5 sm:col-span-2">
-            <label className="text-sm font-semibold text-ink">URL de la imagen</label>
-            <input value={form.imagen_url} onChange={(e) => setForm((f) => ({ ...f, imagen_url: e.target.value }))} placeholder="https://… o URL pública de Supabase Storage" className={inputCls} />
+            <label className="text-sm font-semibold text-ink">Imagen del producto</label>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="w-32 h-32 rounded-lg border border-line bg-media overflow-hidden flex-none">
+                {imageFile ? (
+                  <img src={URL.createObjectURL(imageFile)} alt="Vista previa" className="w-full h-full object-cover" />
+                ) : form.imagen_url ? (
+                  <img src={form.imagen_url} alt="Vista previa" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full grid place-items-center text-disabled">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.5-3.5L6 21"/></svg>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col gap-2 flex-1 min-w-0">
+                <input
+                  id="prodImageFile"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const f = e.target.files && e.target.files[0]
+                    setImageFile(f || null)
+                    if (f) setForm((form) => ({ ...form, imagen_url: '' }))
+                  }}
+                  className={inputCls + ' cursor-pointer file:mr-3 file:border-0 file:bg-canvas file:px-3 file:py-1 file:rounded-md file:text-ink file:cursor-pointer'}
+                />
+                {imageFile && (
+                  <button type="button" onClick={() => setImageFile(null)} className="self-start text-xs font-medium text-[#b91c1c] hover:bg-[#fdeeee] px-2 py-1.5 rounded-md transition-colors cursor-pointer">
+                    Quitar imagen seleccionada
+                  </button>
+                )}
+                <p className="text-xs">Selecciona un archivo (JPG, PNG, WebP… hasta 2 MB)o pega una URL en el campo de abajo.</p>
+              </div>
+            </div>
+            <input
+              value={form.imagen_url}
+              onChange={(e) => setForm((f) => ({ ...f, imagen_url: e.target.value }))}
+              placeholder="…o pega una URL https:// directa"
+              className={inputCls}
+            />
           </div>
           <div className="flex items-center gap-2.5 sm:col-span-2">
-            <button type="submit" disabled={saving} className="bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
-              {saving ? 'Guardando…' : isNew ? 'Crear producto' : 'Guardar cambios'}
+            <button type="submit" disabled={saving || uploading} className="bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+              {uploading ? 'Subiendo imagen…' : saving ? 'Guardando…' : isNew ? 'Crear producto' : 'Guardar cambios'}
             </button>
             <button type="button" onClick={cancel} className="text-sm font-medium text-muted hover:text-ink px-3 py-2.5 transition-colors cursor-pointer">Cancelar</button>
           </div>

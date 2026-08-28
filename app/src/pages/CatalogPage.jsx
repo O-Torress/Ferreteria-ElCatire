@@ -14,7 +14,7 @@ export default function CatalogPage() {
   const { products, loading, error } = useProducts()
 
   useEffect(() => {
-    document.title = 'Catálogo – Ferretería El Catire'
+    document.title = 'Catálogo - Ferretería El Catire'
   }, [])
 
   const { rate, rateLabel } = useCart()
