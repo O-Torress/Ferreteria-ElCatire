@@ -23,19 +23,29 @@ export default function CartDrawer({ open, onClose }) {
     setConfirming(true)
     setError('')
     const failed = []
+    let permError = ''
     for (const id of ids) {
       const p = byId[id]
       const qty = items[id]
-      const { error: err, count } = await supabase
-        .from('Productos')
-        .update({ stock: p.stock - qty }, { count: 'exact' })
-        .eq('codigo', Number(id))
-        .gte('stock', qty)
-      if (err || count === 0) {
+      const { data, error } = await supabase.rpc('descontar_stock', {
+        codigo_in: Number(id),
+        cantidad_in: qty
+      })
+      if (error) {
+        if (!permError) permError = error.message || 'Error al actualizar el inventario.'
+        continue
+      }
+      if (data === false) {
         failed.push(p.nombre)
       }
     }
     setConfirming(false)
+    if (permError) {
+      setError(permError.includes('permission') || permError.includes('row-level security') || permError.includes('violates row-level') || permError.includes('function')
+        ? 'No tienes permisos para confirmar el pedido. Contacta al administrador.'
+        : permError)
+      return
+    }
     if (failed.length > 0) {
       setError('No hay stock suficiente para: ' + failed.join(', '))
       return
