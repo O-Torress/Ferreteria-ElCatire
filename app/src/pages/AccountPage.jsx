@@ -18,6 +18,9 @@ export default function AccountPage() {
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
 
+  const [currentPass, setCurrentPass] = useState('')
+  const [passVerified, setPassVerified] = useState(false)
+  const [verifying, setVerifying] = useState(false)
   const [pass, setPass] = useState('')
   const [confirm, setConfirm] = useState('')
   const [passSaving, setPassSaving] = useState(false)
@@ -64,12 +67,31 @@ export default function AccountPage() {
     refreshProfile()
   }
 
+  async function verifyCurrentPassword(e) {
+    e.preventDefault()
+    setPassErr('')
+    setPassMsg('')
+    if (!currentPass) {
+      setPassErr('Introduce tu contraseña actual.')
+      return
+    }
+    setVerifying(true)
+    const { error } = await supabase.auth.signInWithPassword({ email: user.email, password: currentPass })
+    setVerifying(false)
+    if (error) {
+      setPassErr('La contraseña actual es incorrecta.')
+      return
+    }
+    setPassVerified(true)
+    setPassErr('')
+  }
+
   async function changePassword(e) {
     e.preventDefault()
     setPassMsg('')
     setPassErr('')
     if (!/(?=.*[a-z])(?=^(?=.*\d).*[A-Z])(?=.*[!@#$%^&*()-+.]).{8,}$/.test(pass)) {
-      setErr('La contraseña debe tener al menos 8 caracteres incluyendo una letra minúscula, una letra mayúscula, un número y un carácter especial.')
+      setPassErr('La contraseña debe tener al menos 8 caracteres incluyendo una letra minúscula, una letra mayúscula, un número y un carácter especial.')
       return
     }
     if (pass !== confirm) {
@@ -83,8 +105,10 @@ export default function AccountPage() {
       setPassErr(error.message)
       return
     }
-    setPass('') 
+    setPass('')
     setConfirm('')
+    setPassVerified(false)
+    setCurrentPass('')
     setPassMsg('Contraseña actualizada correctamente.')
   }
 
@@ -136,24 +160,37 @@ export default function AccountPage() {
             </button>
           </form>
 
-          <form onSubmit={changePassword} className="bg-white border border-line rounded-lg p-5 sm:p-6 mb-5">
+          <form onSubmit={passVerified ? changePassword : verifyCurrentPassword} className="bg-white border border-line rounded-lg p-5 sm:p-6 mb-5">
             <h2 className="font-display font-semibold text-[17px] tracking-[-0.01em] mb-4">Cambiar contraseña</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="accPass" className="text-sm font-semibold text-ink">Nueva contraseña</label>
-                <input id="accPass" type="password" autoComplete="new-password" placeholder="Mínimo 8 caracteres" value={pass} onChange={(e) => setPass(e.target.value)} className={inputCls} />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="accConfirm" className="text-sm font-semibold text-ink">Confirmar contraseña</label>
-                <input id="accConfirm" type="password" autoComplete="new-password" placeholder="Repite la contraseña" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={inputCls} />
-              </div>
-            </div>
 
+            {!passVerified ? (
+              <div className="space-y-4">
+                <p className="text-sm text-muted">Introduzca su contraceña actual para luego introducir la nueva contraceña.</p>
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="accCurrentPass" className="text-sm font-semibold text-ink">Contraseña actual</label>
+                  <input id="accCurrentPass" type="password" autoComplete="current-password" placeholder="Introduce tu contraseña actual" value={currentPass} onChange={(e) => setCurrentPass(e.target.value)} className={inputCls} />
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label htmlFor="accPass" className="text-sm font-semibold text-ink">Nueva contraseña</label>
+                    <input id="accPass" type="password" autoComplete="new-password" placeholder="Mínimo 8 caracteres" value={pass} onChange={(e) => setPass(e.target.value)} className={inputCls} />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label htmlFor="accConfirm" className="text-sm font-semibold text-ink">Confirmar contraseña</label>
+                    <input id="accConfirm" type="password" autoComplete="new-password" placeholder="Repite la contraseña" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={inputCls} />
+                  </div>
+                </div>
+              </div>
+            )}
+            
             {passMsg && <p className="text-sm text-action font-medium mt-3.5">{passMsg}</p>}
             {passErr && <p className="text-sm text-[#b91c1c] font-medium mt-3.5">{passErr}</p>}
 
-            <button type="submit" disabled={passSaving} className="cursor-pointer mt-4 bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:opacity-60">
-              {passSaving ? 'Actualizando…' : 'Actualizar contraseña'}
+            <button type="submit" disabled={verifying || passSaving} className="cursor-pointer mt-4 bg-action hover:bg-actionhover text-white font-semibold text-sm tracking-[0.02em] px-5 py-2.5 rounded-lg min-h-[42px] transition-colors disabled:opacity-60">
+              {verifying ? 'Verificando…' : passSaving ? 'Actualizando…' : passVerified ? 'Actualizar contraseña' : 'Verificar contraseña'}
             </button>
           </form>
 
